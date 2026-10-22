@@ -231,6 +231,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .modal-btn {width: 100%; padding: 14px; background: var(--t2-pink); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; font-family: inherit; transition: background 0.2s;}
 .modal-btn:hover { background: var(--t2-pink-light); }
 
+.pres-banner{background:linear-gradient(135deg,rgba(255,0,128,0.15) 0%,rgba(42,42,48,1) 100%);border:1px solid var(--t2-pink-border);border-radius:16px;padding:20px;margin-bottom:24px;display:flex;gap:16px;align-items:center;box-shadow:0 4px 20px rgba(255,0,128,0.1)}
+.pres-banner__icon{font-size:32px}
+.pres-banner__text{font-size:14px;line-height:1.5;color:var(--t2-text-sub)}
+.pres-banner__text b{color:#fff}
+.pres-banner__text span{color:var(--t2-pink-light);font-weight:800}
+
 @media(max-width:1100px){
   .controls-grid{grid-template-columns:1fr 1fr;height:auto}
   .desc-panel{grid-column:1/-1;height:200px}
@@ -241,43 +247,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   .pres-card{width:180px}
 }
 @media(max-width:800px){
-  .controls-grid{
-    grid-template-columns:1fr; 
-    height:auto; 
-    position:static;
-    padding: 10px 14px;
-    gap: 10px;
-  }
-  .control-panel{
-    height:auto; 
-    overflow: visible; 
-    padding: 12px;
-  }
-  .tt-list{
-    flex-direction: column;
-    flex-wrap: nowrap;
-    max-height: 200px; 
-    overflow-y: auto;
-    overflow-x: hidden; 
-    padding-bottom: 4px;
-  }
-  .tt-item{
-    white-space: normal; 
-    word-break: break-word;
-  }
-  .addon-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-  .addon-chip {
-    padding: 12px 8px; 
-  }
-  .addon-chip__name {
-    font-size: 11px;
-    line-height: 1.2;
-    white-space: normal;
-  }
+  .controls-grid{grid-template-columns:1fr;height:auto;position:static;padding:10px 14px;gap:10px}
+  .control-panel{height:auto;overflow:visible;padding:12px}
+  .tt-list{flex-direction:column;flex-wrap:nowrap;max-height:200px;overflow-y:auto;overflow-x:hidden;padding-bottom:4px}
+  .tt-item{white-space:normal;word-break:break-word}
+  .addon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .addon-chip{padding:12px 8px}
+  .addon-chip__name{font-size:11px;line-height:1.2;white-space:normal}
   .region-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 }
 @media(max-width:768px){
@@ -300,21 +276,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   .stock-table thead{display:none}
   
   .stock-row {
-    background:var(--t2-card); 
-    border:1px solid var(--t2-border); 
-    border-radius:14px; 
-    margin-bottom:12px; 
-    padding:14px; 
-    display:grid; 
+    background:var(--t2-card); border:1px solid var(--t2-border); border-radius:14px; margin-bottom:12px; padding:14px; display:grid; 
     grid-template-columns: 1fr auto; 
-    grid-template-areas: 
-      "name benefit" 
-      "colors colors"
-      "meta meta" 
-      "price price" 
-      "btn btn"; 
-    gap:8px 12px;
-    position:relative;
+    grid-template-areas: "name benefit" "colors colors" "meta meta" "price price" "btn btn"; 
+    gap:8px 12px; position:relative;
   }
   .stock-row:hover{background:var(--t2-card-hover)}
   .stock-row.selected{background:var(--t2-pink-soft);border-color:var(--t2-pink)}
@@ -337,12 +302,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   .benefit-pill--pos::before {content: "Выгода"}
   .benefit-pill--neg::before {content: "Доплата"}
   
-  .mobile-qty-label {
-    font-size: 12px;
-    color: var(--t2-muted);
-    margin-top: 4px;
-    display: block;
-  }
+  .mobile-qty-label {font-size: 12px; color: var(--t2-muted); margin-top: 4px; display: block;}
 }
 </style>
 </head>
@@ -421,189 +381,197 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 <div id="newsModal" class="modal-overlay">
   <div class="modal-card">
     <button class="modal-close" onclick="closeNewsModal()">✕</button>
-    <div class="modal-icon">🔥</div>
-    <h2 class="modal-title">Последний день акции!</h2>
+    <div class="modal-icon">📢</div>
+    <h2 class="modal-title">Важные изменения в акции</h2>
     <div class="modal-content">
-      <p>Сегодня <strong>последний день</strong>, когда действует облегченное комбо с антивирусом <strong>«Киберзащита+»</strong>!</p>
-      <p style="margin-top: 10px;">Успейте оформить смартфоны в комплекте с SIM и Киберзащитой по старым условиям.</p>
-      <div style="background: rgba(255,0,128,0.1); border-left: 3px solid var(--t2-pink); padding: 10px; margin-top: 15px; border-radius: 6px;">
-        <strong>С завтрашнего дня (22 октября):</strong>
-        <ul style="margin-top: 5px; margin-bottom: 0;">
-          <li>Возвращаются страховые продукты.</li>
-          <li>Смартфоны свыше 40 000 ₽ снова будут доступны в комбо.</li>
-          <li>Появится доп. скидка за 4-ю позицию в чеке.</li>
-        </ul>
-      </div>
+      <p><strong>С 22 октября</strong> мы отключаем механику с антивирусом «Киберзащита+» и возвращаемся к стандартной механике со страховыми продуктами.</p>
+      <ul>
+        <li>Смартфоны <strong>свыше 40 000 ₽</strong> снова доступны для продажи в комплектах «Комбо».</li>
+        <li>Восстановлены дополнительные скидки при добавлении 4-й позиции.</li>
+        <li>Продукты «Киберзащита+» и «СОГАЗ Портативная+» полностью убраны из акции.</li>
+      </ul>
     </div>
-    <button class="modal-btn" onclick="closeNewsModal()">Понятно, продаем сегодня!</button>
+    <button class="modal-btn" onclick="closeNewsModal()">Понятно</button>
   </div>
 </div>
 
 <script>
 const SPECS = {
-  'Honor X5d Plus|4/128': { brand:'Honor', screen:'6.74" TFT LCD 90Hz', ram:'4 GB', rom:'128 GB', battery:'5260 мАч, 15W', os:'Android 15 + MagicOS 9.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 5260 мАч + защита экрана от царапин' },
-  'Honor X5d Plus|4/256': { brand:'Honor', screen:'6.74" TFT LCD 90Hz', ram:'4 GB', rom:'256 GB', battery:'5260 мАч, 15W', os:'Android 15 + MagicOS 9.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'256 ГБ памяти + батарея 5260 мАч' },
-  'Honor X6e|4/256': { brand:'Honor', screen:'6.61" TFT LCD 120Hz', ram:'4 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 7500 мАч + защита IP64' },
-  'Honor X7d|8/256': { brand:'Honor', screen:'6.77" TFT LCD 120Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 35W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Камера 108 МП + батарея 6500 мАч' },
-  'Honor X7e|6/256': { brand:'Honor', screen:'6.61" TFT LCD 120Hz', ram:'6 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 7500 мАч — рекорд автономности' },
-  'Honor X8c|8/256': { brand:'Honor', screen:'6.7" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 35W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED + камера 108 МП с OIS + фронт 50 МП' },
-  'Honor X8d|8/128': { brand:'Honor', screen:'6.77" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'7000 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Экран AMOLED 120 Гц + камера 108 МП' },
-  'Honor X8d|8/256': { brand:'Honor', screen:'6.77" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Экран AMOLED 120 Гц + камера 108 МП' },
-  'Honor X9d|8/256': { brand:'Honor', screen:'6.79" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'8300 мАч, 66W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP + 5 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Батарея 8300 мАч + зарядка 66 Вт + IP69K' },
-  'Honor X9d|12/256': { brand:'Honor', screen:'6.79" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'8300 мАч, 66W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP + 5 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Батарея 8300 мАч + 12 ГБ оперативы' },
-  'Honor 400 lite|8/256': { brand:'Honor', screen:'6.7" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5230 мАч, 35W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED + камера 108 МП + ИИ-функции' },
-  'Honor 600 Lite|8/256': { brand:'Honor', screen:'6.6" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6520 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'108 MP + 5 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED + камера 108 МП + IP66' },
-  'Honor 600|8/256': { brand:'Honor', screen:'6.57" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6400 мАч, 80W', os:'Android 16 + MagicOS 10.0', mainCam:'200 MP + 12 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + фронт 50 МП + IP68/IP69K' },
-  'Honor 600|12/256': { brand:'Honor', screen:'6.57" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'6400 мАч, 80W', os:'Android 16 + MagicOS 10.0', mainCam:'200 MP + 12 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + 12 ГБ оперативы + IP68' },
-  'Infinix Hot 60 Pro|8/128': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'128 GB', battery:'5160 мАч, 45W', os:'Android 15 + XOS 15.1.1', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C, 3.5 мм', highlight:'AMOLED 144 Гц + Gorilla Glass 7i + вес 170 г' },
-  'Infinix Hot 60 Pro Plus|8/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'5160 мАч, 45W', os:'Android 15 + XOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + 256 ГБ + зарядка 45 Вт' },
-  'Infinix Hot 60i|8/256': { brand:'Infinix', screen:'6.75" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 18W', os:'Android 15 + XOS 15', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C, 3.5 мм', highlight:'5G + батарея 6000 мАч + IP64' },
-  'Infinix Hot 70|4/128': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6000 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 6000 мАч + ИИ-кнопка + IP65' },
-  'Infinix Hot 70|8/128': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'6000 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 6000 мАч + ИИ-кнопка + IP65' },
-  'Infinix Hot 70|8/256': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 6000 мАч + ИИ-кнопка + IP65' },
-  'Infinix Hot 70 Pro|8/128': { brand:'Infinix', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5160 мАч, 45W', os:'Android 15 + XOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + зарядка 45 Вт' },
-  'Infinix Note 60|8/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP + 8 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Игровые антенны 360° + динамики JBL' },
-  'Infinix Note 60 Pro|12/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'12 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP + 8 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + динамики JBL' },
-  'Infinix Note Edge|8/128': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'128 GB', battery:'6150 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Dimensity 7100 + JBL + Gorilla Glass 7i' },
-  'Infinix Note Edge|8/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'6150 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'256 ГБ + Dimensity 7100 + JBL' },
-  'Infinix SMART 20|4/64': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'5200 мАч, 15W', os:'Android 16 + XOS 16', mainCam:'8 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Самый доступный + батарея 5200 мАч' },
-  'Infinix Smart 10|4/128': { brand:'Infinix', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 15W', os:'Android 15 + XOS 15.1', mainCam:'8 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Стереодинамики DTS + защита IP64' },
-  'Infinix Zero 40|12/256': { brand:'Infinix', screen:'6.78" AMOLED 144Hz', ram:'12 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 14 + XOS 14.5', mainCam:'108 MP OIS + 50 MP UW', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + камера 108 МП + фронт 50 МП' },
-  'Tecno Camon 30 CL7|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 70W', os:'Android 14 + HiOS 14', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + фронт 50 МП' },
-  'Tecno Camon 30S|6/128': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч', os:'Android 14 + HiOS 14', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + камера 50 МП' },
-  'Tecno Camon 30S|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 14 + HiOS 14', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + 8 ГБ RAM' },
-  'Tecno Camon 30S Pro|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 14 + HiOS 14', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED + OIS + фронт 50 МП' },
-  'Tecno Camon 40|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED + OIS + 45 Вт' },
-  'Tecno Camon 40|12/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + камера с OIS' },
-  'Tecno Camon 40 Pro CM6|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + OIS' },
-  'Tecno Camon 40 Pro CM7|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + OIS' },
-  'Tecno Camon 40 Pro CM7|12/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'5200 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + зарядка 70 Вт' },
-  'Tecno Camon 50|12/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'12 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + камера 50 МП OIS' },
-  'Tecno Camon 50|8/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + камера 50 МП OIS' },
-  'Tecno Camon 50 Ultra|8/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + 8 ГБ RAM' },
-  'Tecno Camon 50 Ultra|12/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'12 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + 12 ГБ RAM' },
-  'Tecno Pova 7|8/256': { brand:'Tecno', screen:'6.78" IPS 144Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'144 Гц + батарея 6000 мАч + беспроводная 30 Вт' },
-  'Tecno Pova 7 Neo|8/128': { brand:'Tecno', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED + 45 Вт' },
-  'Tecno Pova 7 Neo|8/256': { brand:'Tecno', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED + 45 Вт + 256 ГБ' },
-  'Tecno Pova 7 Pro|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'13 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + OIS' },
-  'Tecno Pova 7 Pro|12/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'6000 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'13 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + зарядка 70 Вт' },
-  'Tecno Pova 7 Ultra|8/256': { brand:'Tecno', screen:'6.67" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'108 MP + 8 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + беспроводная 30 Вт' },
-  'Tecno Pova 8|8/128': { brand:'Tecno', screen:'6.76" IPS 144Hz', ram:'8 GB', rom:'128 GB', battery:'8000 мАч, 45W', os:'Android 16 + HiOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Батарея 8000 мАч + мини-экран Alive Matrix' },
-  'Tecno Pova 8|8/256': { brand:'Tecno', screen:'6.76" IPS 144Hz', ram:'8 GB', rom:'256 GB', battery:'8000 мАч, 45W', os:'Android 16 + HiOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Батарея 8000 мАч + мини-экран Alive Matrix' },
-  'Tecno Spark 30|8/128': { brand:'Tecno', screen:'6.78" IPS 90Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 14 + HiOS 14', mainCam:'64 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Камера 64 МП Sony + IP64 + NFC' },
-  'Tecno Spark 30|8/256': { brand:'Tecno', screen:'6.78" IPS 90Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 18W', os:'Android 14 + HiOS 14', mainCam:'64 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Камера 64 МП Sony + 256 ГБ' },
-  'Tecno Spark 40|4/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Зарядка 45 Вт + ИИ-ассистент Ella' },
-  'Tecno Spark 40|8/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Зарядка 45 Вт + 8 ГБ RAM' },
-  'Tecno Spark 40|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + зарядка 45 Вт' },
-  'Tecno Spark 40 Pro|8/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Зарядка 45 Вт + 8 ГБ RAM' },
-  'Tecno Spark 40 Pro|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + зарядка 45 Вт' },
-  'Tecno Spark 40 Pro Plus|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + зарядка 45 Вт' },
-  'Tecno Spark 40C|4/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'120 Гц + 128 ГБ' },
-  'Tecno Spark 40C|8/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'120 Гц + 8 ГБ RAM' },
-  'Tecno Spark 40C|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 18W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'120 Гц + 256 ГБ' },
-  'Tecno Spark 50|4/128': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Батарея 6700 мАч + стереодинамики DTS' },
-  'Tecno Spark 50|6/128': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'6 GB', rom:'128 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Батарея 6700 мАч + 6 ГБ RAM' },
-  'Tecno Spark 50|8/128': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'8 ГБ оперативы + батарея 6700 мАч' },
-  'Tecno Spark 50|8/256': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'256 ГБ + батарея 6700 мАч' },
-  'Tecno Spark Go 1|4/64': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'5000 мАч, 15W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Экран 120 Гц + 64 ГБ' },
-  'Tecno Spark Go 2|3/64': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'3 GB', rom:'64 GB', battery:'5000 мАч, 10W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Самый бюджетный + батарея 5000 мАч' },
-  'Tecno Spark Go 3|4/64': { brand:'Tecno', screen:'6.74" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'5000 мАч, 15W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Экран 120 Гц + защита IP64' },
-  'Tecno Spark Go 3|4/128': { brand:'Tecno', screen:'6.74" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 15W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'128 ГБ + экран 120 Гц + IP64' },
-  'Realme C100i|4/128': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'128 GB', battery:'7000 мАч, 15W', os:'Android 16 + realme UI 7.0', mainCam:'8 MP, f/2.0', frontCam:'5 MP, f/2.2', port:'USB Type-C, 3.5 мм', highlight:'Батарея 7000 мАч + ArmorShell' },
-  'Realme C100i|4/64': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'64 GB', battery:'7000 мАч, 15W', os:'Android 16 + realme UI 7.0', mainCam:'8 MP, f/2.0', frontCam:'5 MP, f/2.2', port:'USB Type-C, 3.5 мм', highlight:'Батарея 7000 мАч + ArmorShell' },
-  'Realme C100x|4/128': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'128 GB', battery:'8000 мАч, 45W', os:'Android 16 + realme UI 7.0', mainCam:'50 MP, f/1.8', frontCam:'5 MP, f/2.2', port:'USB Type-C', highlight:'Батарея 8000 мАч + зарядка 45 Вт' },
-  'Realme C100x|4/256': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'256 GB', battery:'8000 мАч, 45W', os:'Android 16 + realme UI 7.0', mainCam:'50 MP, f/1.8', frontCam:'5 MP, f/2.2', port:'USB Type-C', highlight:'Батарея 8000 мАч + 256 ГБ' },
-  'Realme C85|6/128': { brand:'Realme', screen:'6.8" IPS HD+ 144Hz, 1200 нит', ram:'6 GB', rom:'128 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP Sony IMX852', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'IP69 Pro + 144 Гц + Titan Battery' },
-  'Realme C85|8/256': { brand:'Realme', screen:'6.8" IPS HD+ 144Hz, 1200 нит', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP Sony IMX852', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'IP69 Pro + 8 ГБ RAM' },
-  'Realme C85 Pro|6/128': { brand:'Realme', screen:'6.8" AMOLED FHD+ 120Hz, 4000 нит', ram:'6 GB', rom:'128 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'AMOLED 4000 нит + IP69 Pro' },
-  'Realme C85 Pro|8/256': { brand:'Realme', screen:'6.8" AMOLED FHD+ 120Hz, 4000 нит', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'AMOLED 4000 нит + 8 ГБ RAM' },
-  'Realme Note 60x|3/64': { brand:'Realme', screen:'6.74" IPS 90Hz', ram:'3 GB', rom:'64 GB', battery:'5000 мАч, 10W', os:'Android 14 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'ArmorShell + батарея 5000 мАч' },
-  'Realme Note 60x|4/128': { brand:'Realme', screen:'6.74" IPS 90Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 10W', os:'Android 14 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'ArmorShell + 128 ГБ' },
-  'Realme Note 70|6/128': { brand:'Realme', screen:'6.74" IPS 90Hz', ram:'6 GB', rom:'128 GB', battery:'6300 мАч, 15W', os:'Android 15 + realme UI', mainCam:'13 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 6300 мАч + ArmorShell' },
-  'Realme Note 80|4/64': { brand:'Realme', screen:'6.74" LCD HD+ 90Hz', ram:'4 GB', rom:'64 GB', battery:'6300 мАч, 15W', os:'Android 15 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C, 3.5 мм', highlight:'Батарея 6300 мАч + ArmorShell' },
-  'Realme Note 80|4/128': { brand:'Realme', screen:'6.74" LCD HD+ 90Hz', ram:'4 GB', rom:'128 GB', battery:'6300 мАч, 15W', os:'Android 15 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C, 3.5 мм', highlight:'128 ГБ + батарея 6300 мАч' },
-  'Realme C71|6/128': { brand:'Realme', screen:'6.67" LCD HD+ 120Hz', ram:'6 GB', rom:'128 GB', battery:'6300 мАч, 45W', os:'Android 15 + realme UI', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 6300 мАч + 45 Вт' },
-  'Realme C71|8/128': { brand:'Realme', screen:'6.67" LCD HD+ 120Hz', ram:'8 GB', rom:'128 GB', battery:'6300 мАч, 45W', os:'Android 15 + realme UI', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 6300 мАч + 8 ГБ RAM' },
-  'Realme C71|8/256': { brand:'Realme', screen:'6.67" LCD HD+ 120Hz', ram:'8 GB', rom:'256 GB', battery:'6300 мАч, 45W', os:'Android 15 + realme UI', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'256 ГБ + 45 Вт' },
-  'Realme C75|8/128': { brand:'Realme', screen:'6.72" IPS 90Hz', ram:'8 GB', rom:'128 GB', battery:'5828 мАч, 45W', os:'Android 14 + realme UI 5.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Защита IP69 + зарядка 45 Вт' },
-  'Realme C75|8/256': { brand:'Realme', screen:'6.72" IPS 90Hz', ram:'8 GB', rom:'256 GB', battery:'5828 мАч, 45W', os:'Android 14 + realme UI 5.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Защита IP69 + 256 ГБ' },
-  'Realme 14T|8/128': { brand:'Realme', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'6000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'5G + зарядка 45 Вт + AMOLED' },
-  'Realme 14T|8/256': { brand:'Realme', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'5G + 256 ГБ + AMOLED' },
-  'Realme 15|8/256': { brand:'Realme', screen:'6.57" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 60W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + зарядка 60 Вт' },
-  'Realme 15|12/256': { brand:'Realme', screen:'6.57" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'7000 мАч, 60W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'12 ГБ RAM + AMOLED 120 Гц' },
-  'Realme 15 Pro|8/256': { brand:'Realme', screen:'6.78" AMOLED 144Hz', ram:'8 GB', rom:'256 GB', battery:'7100 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + зарядка 80 Вт' },
-  'Realme 16|8/256': { brand:'Realme', screen:'6.57" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 60W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + зарядка 60 Вт' },
-  'Realme 16 Pro|8/256': { brand:'Realme', screen:'6.78" AMOLED 144Hz', ram:'8 GB', rom:'256 GB', battery:'7100 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + зарядка 80 Вт' },
-  'Realme 16 Pro Plus|8/256': { brand:'Realme', screen:'6.8" AMOLED 144Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + 80 Вт' },
-  'Realme 16 Pro Plus|12/512': { brand:'Realme', screen:'6.8" AMOLED 144Hz', ram:'12 GB', rom:'512 GB', battery:'7000 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM + 200 МП' },
-  'Xiaomi REDMI 15|6/128': { brand:'Xiaomi', screen:'6.9" IPS 144Hz', ram:'6 GB', rom:'128 GB', battery:'7000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 7000 мАч + экран 144 Гц' },
-  'Xiaomi REDMI 15|8/256': { brand:'Xiaomi', screen:'6.9" IPS 144Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + батарея 7000 мАч' },
-  'Xiaomi REDMI 15C|4/128': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Защита IP64 + 120 Гц' },
-  'Xiaomi REDMI 15C|4/256': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'256 GB', battery:'6000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'256 ГБ + защита IP64' },
-  'Xiaomi REDMI 15C|8/256': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 256 ГБ' },
-  'Xiaomi REDMI 17|4/128': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'7500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'5G + экран 120 Гц + батарея 7500 мАч' },
-  'Xiaomi REDMI 17|4/256': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'4 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'5G + 256 ГБ + 7500 мАч' },
-  'Xiaomi REDMI 17|8/256': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'5G + 8 ГБ RAM + 7500 мАч' },
-  'Xiaomi REDMI A5|4/128': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5200 мАч, 15W', os:'Android 15 Go', mainCam:'32 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Самый доступный + камера 32 МП' },
-  'Xiaomi REDMI A7 Pro|4/64': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'6000 мАч, 15W', os:'Android 16 + HyperOS 3', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Большой экран 6.9" + 6000 мАч' },
-  'Xiaomi REDMI A7 Pro|4/128': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6000 мАч, 15W', os:'Android 16 + HyperOS 3', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'128 ГБ + экран 6.9"' },
-  'Xiaomi REDMI Note 13|6/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 33W', os:'Android 13 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + камера 108 МП' },
-  'Xiaomi REDMI Note 13|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 33W', os:'Android 13 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'8 ГБ RAM + AMOLED 120 Гц' },
-  'Xiaomi REDMI Note 13|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 33W', os:'Android 13 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'256 ГБ + AMOLED 120 Гц' },
-  'Xiaomi REDMI Note 13 Pro|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5100 мАч, 67W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'Камера 200 МП OIS + 67 Вт' },
-  'Xiaomi REDMI Note 13 Pro|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5100 мАч, 67W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'256 ГБ + камера 200 МП' },
-  'Xiaomi REDMI Note 13 Pro|12/512': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'12 GB', rom:'512 GB', battery:'5100 мАч, 67W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM' },
-  'Xiaomi REDMI Note 13 Pro Plus|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 120W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'Зарядка 120 Вт + камера 200 МП' },
-  'Xiaomi REDMI Note 13 Pro Plus|12/512': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'12 GB', rom:'512 GB', battery:'5000 мАч, 120W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'512 ГБ + 120 Вт' },
-  'Xiaomi REDMI Note 14|6/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5500 мАч, 33W', os:'Android 14 + HyperOS', mainCam:'108 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + камера 108 МП' },
-  'Xiaomi REDMI Note 14|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5500 мАч, 33W', os:'Android 14 + HyperOS', mainCam:'108 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'8 ГБ RAM + AMOLED 120 Гц' },
-  'Xiaomi REDMI Note 14|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5500 мАч, 33W', os:'Android 14 + HyperOS', mainCam:'108 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'256 ГБ + AMOLED 120 Гц' },
-  'Xiaomi REDMI Note 14 Pro|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'5110 мАч, 45W', os:'Android 14 + HyperOS', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'Камера 200 МП + AMOLED 1.5K' },
-  'Xiaomi REDMI Note 14 Pro|12/512': { brand:'Xiaomi', screen:'6.67" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'512 GB', battery:'5110 мАч, 45W', os:'Android 14 + HyperOS', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM' },
-  'Xiaomi REDMI Note 14S|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 67W', os:'Android 14 + HyperOS', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'Камера 200 МП OIS + 67 Вт' },
-  'Xiaomi REDMI Note 15|6/128': { brand:'Xiaomi', screen:'6.78" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5800 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + 45 Вт' },
-  'Xiaomi REDMI Note 15|8/128': { brand:'Xiaomi', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5800 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'8 ГБ RAM + AMOLED 120 Гц' },
-  'Xiaomi REDMI Note 15|8/256': { brand:'Xiaomi', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5800 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'256 ГБ + 45 Вт' },
-  'Xiaomi REDMI Note 15 Pro|8/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'Защита IP68 + батарея 6580 мАч' },
-  'Xiaomi REDMI Note 15 Pro|8/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'512 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + IP68' },
-  'Xiaomi REDMI Note 15 Pro|12/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'256 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'12 ГБ RAM + IP68' },
-  'Xiaomi REDMI Note 15 Pro|12/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'512 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM' },
-  'Xiaomi REDMI Note 15 Pro Plus|12/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'512 GB', battery:'6500 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'32 MP', port:'USB Type-C', highlight:'Зарядка 100 Вт + 512 ГБ' },
-  'Xiaomi REDMI Note 17|4/128': { brand:'Xiaomi', screen:'6.99" AMOLED 120Hz', ram:'4 GB', rom:'128 GB', battery:'7700 мАч, 45W', os:'Android 15 + HyperOS 6', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Экран AMOLED 120 Гц + 7700 мАч' },
-  'Xiaomi REDMI Note 17|6/256': { brand:'Xiaomi', screen:'6.99" AMOLED 120Hz', ram:'6 GB', rom:'256 GB', battery:'7700 мАч, 45W', os:'Android 15 + HyperOS 6', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'256 ГБ + AMOLED 120 Гц' },
-  'Xiaomi REDMI Note 17|8/256': { brand:'Xiaomi', screen:'6.99" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7700 мАч, 45W', os:'Android 15 + HyperOS 6', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 7700 мАч' },
-  'Xiaomi REDMI Note 17 Pro|6/128': { brand:'Xiaomi', screen:'6.88" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'Камера 200 МП + 45 Вт' },
-  'Xiaomi REDMI Note 17 Pro|8/256': { brand:'Xiaomi', screen:'6.88" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 200 МП' },
-  'Xiaomi REDMI Note 17 Pro|8/512': { brand:'Xiaomi', screen:'6.88" AMOLED 120Hz', ram:'8 GB', rom:'512 GB', battery:'5500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + 200 МП' },
-  'Xiaomi REDMI Note 17 Pro Max|8/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'10000 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'Батарея 10000 мАч + IP68 + 100 Вт' },
-  'Xiaomi REDMI Note 17 Pro Max|8/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'512 GB', battery:'10000 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'512 ГБ + 10000 мАч' },
-  'Xiaomi REDMI Note 17 Pro Max|12/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'256 GB', battery:'10000 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'12 ГБ RAM + 10000 мАч' },
-  'Xiaomi Poco M5|6/128': { brand:'Xiaomi', screen:'6.58" IPS 90Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 12 + MIUI 13', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Чип Helio G99 + Gorilla Glass' },
-  'Xiaomi Poco X5 Pro|6/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 67W', os:'Android 12 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + 67 Вт' },
-  'Xiaomi 17T|12/512': { brand:'Xiaomi', screen:'6.83" AMOLED 120Hz', ram:'12 GB', rom:'512 GB', battery:'5500 мАч, 90W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'512 ГБ + 90 Вт' },
-  'Samsung Galaxy A08|4/64': { brand:'Samsung', screen:'6.7" PLS LCD 90Hz', ram:'4 GB', rom:'64 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Камера 50 МП + 5000 мАч' },
-  'Samsung Galaxy A08|6/128': { brand:'Samsung', screen:'6.7" PLS LCD 90Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'6 ГБ RAM + камера 50 МП' },
-  'Samsung Galaxy A17|4/128': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч', os:'Android 15 + One UI 7', mainCam:'50 MP OIS', frontCam:'13 MP', port:'USB Type-C', highlight:'Super AMOLED + OIS + 6 лет обновлений' },
-  'Samsung Galaxy A26|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 8 MP + 2 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'IP67 + 6 лет обновлений + OIS' },
-  'Samsung Galaxy A27|6/128': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS', frontCam:'12 MP', port:'USB Type-C', highlight:'6 лет обновлений + Gemini AI + IP64' },
-  'Samsung Galaxy A27|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS', frontCam:'12 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 6 лет обновлений' },
-  'Samsung Galaxy A36|8/128': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 45W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 8 MP + 5 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'IP67 + Gorilla Glass Victus+ + 45 Вт' },
-  'Samsung Galaxy A36|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 8 MP + 5 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'256 ГБ + IP67 + 45 Вт' },
-  'Samsung Galaxy A56|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 12 MP + 5 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'6 лет обновлений + IP67 + 45 Вт' },
-  'Samsung Galaxy S26|12/256': { brand:'Samsung', screen:'6.3" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'256 GB', battery:'4300 мАч, 25W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'Exynos 2600 + 120 Гц AMOLED' },
-  'Samsung Galaxy S26|12/512': { brand:'Samsung', screen:'6.3" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'512 GB', battery:'4300 мАч, 25W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'512 ГБ + Exynos 2600' },
-  'Samsung Galaxy S26 Plus|12/256': { brand:'Samsung', screen:'6.7" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'256 GB', battery:'4900 мАч, 45W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'QHD+ экран + 45 Вт' },
-  'Samsung Galaxy S26 Plus|12/512': { brand:'Samsung', screen:'6.7" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'512 GB', battery:'4900 мАч, 45W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'512 ГБ + 45 Вт' },
-  'Samsung Galaxy S26 Ultra|12/256': { brand:'Samsung', screen:'6.9" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 16 + One UI 8.5', mainCam:'200 MP OIS + 50 MP + 50 MP + 10 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'200 МП + S Pen + Privacy Display' },
-  'Samsung Galaxy S26 Ultra|12/512': { brand:'Samsung', screen:'6.9" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'512 GB', battery:'5000 мАч', os:'Android 16 + One UI 8.5', mainCam:'200 MP OIS + 50 MP + 50 MP + 10 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'512 ГБ + S Pen' },
-  'Samsung Galaxy S26 Ultra|16/1TB': { brand:'Samsung', screen:'6.9" Dynamic AMOLED 2X 120Hz', ram:'16 GB', rom:'1 TB', battery:'5000 мАч', os:'Android 16 + One UI 8.5', mainCam:'200 MP OIS + 50 MP + 50 MP + 10 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'1 ТБ + 16 ГБ RAM + S Pen' },
-  'Apple iPhone 17|8/256': { brand:'Apple', screen:'6.3" Super Retina XDR 120Hz', ram:'8 GB', rom:'256 GB', battery:'до 30 ч видео', os:'iOS 19', mainCam:'48 MP + 12 MP', frontCam:'18 MP', port:'USB Type-C', highlight:'Чип A19 + экран 120 Гц + батарея до 30 ч видео' },
-  'Apple iPhone 17 Pro|12/256': { brand:'Apple', screen:'6.3" Super Retina XDR 120Hz', ram:'12 GB', rom:'256 GB', battery:'до 31 ч видео', os:'iOS 19', mainCam:'48 MP + 48 MP + 48 MP', frontCam:'18 MP', port:'USB Type-C', highlight:'Чип A19 Pro + титановый корпус + камера 48 МП ×3' },
-  'Apple iPhone 17 Pro Max|12/256': { brand:'Apple', screen:'6.9" Super Retina XDR 120Hz', ram:'12 GB', rom:'256 GB', battery:'до 37 ч видео', os:'iOS 19', mainCam:'48 MP + 48 MP + 48 MP', frontCam:'18 MP', port:'USB Type-C', highlight:'Чип A19 Pro + 6.9" экран + батарея до 37 ч видео' }
+  // Honor
+  'X5d Plus|4/128': { brand:'Honor', screen:'6.74" TFT LCD 90Hz', ram:'4 GB', rom:'128 GB', battery:'5260 мАч, 15W', os:'Android 15 + MagicOS 9.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 5260 мАч + защита экрана от царапин' },
+  'X5d Plus|4/256': { brand:'Honor', screen:'6.74" TFT LCD 90Hz', ram:'4 GB', rom:'256 GB', battery:'5260 мАч, 15W', os:'Android 15 + MagicOS 9.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'256 ГБ памяти + батарея 5260 мАч' },
+  'X6e|4/256': { brand:'Honor', screen:'6.61" TFT LCD 120Hz', ram:'4 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 7500 мАч + защита IP64' },
+  'X7d|8/256': { brand:'Honor', screen:'6.77" TFT LCD 120Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 35W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Камера 108 МП + батарея 6500 мАч' },
+  'X7e|6/256': { brand:'Honor', screen:'6.61" TFT LCD 120Hz', ram:'6 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 7500 мАч — рекорд автономности' },
+  'X8c|8/256': { brand:'Honor', screen:'6.7" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 35W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED + камера 108 МП с OIS + фронт 50 МП' },
+  'X8d|8/128': { brand:'Honor', screen:'6.77" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'7000 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Экран AMOLED 120 Гц + камера 108 МП' },
+  'X8d|8/256': { brand:'Honor', screen:'6.77" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Экран AMOLED 120 Гц + камера 108 МП' },
+  'X9d|8/256': { brand:'Honor', screen:'6.79" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'8300 мАч, 66W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP + 5 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Батарея 8300 мАч + зарядка 66 Вт + IP69K' },
+  'X9d|12/256': { brand:'Honor', screen:'6.79" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'8300 мАч, 66W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP + 5 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'Батарея 8300 мАч + 12 ГБ оперативы' },
+  '400 lite|8/256': { brand:'Honor', screen:'6.7" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5230 мАч, 35W', os:'Android 15 + MagicOS 9.0', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED + камера 108 МП + ИИ-функции' },
+  '600 Lite|8/256': { brand:'Honor', screen:'6.6" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6520 мАч, 45W', os:'Android 16 + MagicOS 10.0', mainCam:'108 MP + 5 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED + камера 108 МП + IP66' },
+  '600|8/256': { brand:'Honor', screen:'6.57" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6400 мАч, 80W', os:'Android 16 + MagicOS 10.0', mainCam:'200 MP + 12 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + фронт 50 МП + IP68/IP69K' },
+  '600|12/256': { brand:'Honor', screen:'6.57" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'6400 мАч, 80W', os:'Android 16 + MagicOS 10.0', mainCam:'200 MP + 12 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + 12 ГБ оперативы + IP68' },
+  
+  // Infinix
+  'Hot 60 Pro|8/128': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'128 GB', battery:'5160 мАч, 45W', os:'Android 15 + XOS 15.1.1', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C, 3.5 мм', highlight:'AMOLED 144 Гц + Gorilla Glass 7i + вес 170 г' },
+  'Hot 60 Pro Plus|8/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'5160 мАч, 45W', os:'Android 15 + XOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + 256 ГБ + зарядка 45 Вт' },
+  'Hot 60i|8/256': { brand:'Infinix', screen:'6.75" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 18W', os:'Android 15 + XOS 15', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C, 3.5 мм', highlight:'5G + батарея 6000 мАч + IP64' },
+  'Hot 70|4/128': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6000 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 6000 мАч + ИИ-кнопка + IP65' },
+  'Hot 70|8/128': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'6000 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 6000 мАч + ИИ-кнопка + IP65' },
+  'Hot 70|8/256': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 6000 мАч + ИИ-кнопка + IP65' },
+  'Hot 70 Pro|8/128': { brand:'Infinix', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5160 мАч, 45W', os:'Android 15 + XOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + зарядка 45 Вт' },
+  'Note 60|8/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP + 8 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Игровые антенны 360° + динамики JBL' },
+  'Note 60 Pro|12/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 144Hz', ram:'12 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP + 8 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + динамики JBL' },
+  'Note Edge|8/128': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'128 GB', battery:'6150 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Dimensity 7100 + JBL + Gorilla Glass 7i' },
+  'Note Edge|8/256': { brand:'Infinix', screen:'6.78" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'6150 мАч, 45W', os:'Android 16 + XOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'256 ГБ + Dimensity 7100 + JBL' },
+  'SMART 20|4/64': { brand:'Infinix', screen:'6.78" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'5200 мАч, 15W', os:'Android 16 + XOS 16', mainCam:'8 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Самый доступный + батарея 5200 мАч' },
+  'Smart 10|4/128': { brand:'Infinix', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 15W', os:'Android 15 + XOS 15.1', mainCam:'8 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Стереодинамики DTS + защита IP64' },
+  'Zero 40|12/256': { brand:'Infinix', screen:'6.78" AMOLED 144Hz', ram:'12 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 14 + XOS 14.5', mainCam:'108 MP OIS + 50 MP UW', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + камера 108 МП + фронт 50 МП' },
+
+  // Tecno
+  'Camon 30 CL7|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 70W', os:'Android 14 + HiOS 14', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + фронт 50 МП' },
+  'Camon 30S|6/128': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч', os:'Android 14 + HiOS 14', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + камера 50 МП' },
+  'Camon 30S|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 14 + HiOS 14', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + 8 ГБ RAM' },
+  'Camon 30S Pro|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 14 + HiOS 14', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED + OIS + фронт 50 МП' },
+  'Camon 40|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED + OIS + 45 Вт' },
+  'Camon 40|12/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + камера с OIS' },
+  'Camon 40 Pro CM6|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + OIS' },
+  'Camon 40 Pro CM7|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + OIS' },
+  'Camon 40 Pro CM7|12/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'5200 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'50 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + зарядка 70 Вт' },
+  'Camon 50|12/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'12 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + камера 50 МП OIS' },
+  'Camon 50|8/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + камера 50 МП OIS' },
+  'Camon 50 Ultra|8/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + 8 ГБ RAM' },
+  'Camon 50 Ultra|12/256': { brand:'Tecno', screen:'6.78" AMOLED 1.5K 144Hz', ram:'12 GB', rom:'256 GB', battery:'6500 мАч, 45W', os:'Android 15 + HiOS 16', mainCam:'50 MP OIS', frontCam:'32 MP', port:'USB Type-C', highlight:'AMOLED 144 Гц + 12 ГБ RAM' },
+  'Pova 7|8/256': { brand:'Tecno', screen:'6.78" IPS 144Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'144 Гц + батарея 6000 мАч + беспроводная 30 Вт' },
+  'Pova 7 Neo|8/128': { brand:'Tecno', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED + 45 Вт' },
+  'Pova 7 Neo|8/256': { brand:'Tecno', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'AMOLED + 45 Вт + 256 ГБ' },
+  'Pova 7 Pro|8/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'13 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + AMOLED + OIS' },
+  'Pova 7 Pro|12/256': { brand:'Tecno', screen:'6.78" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'6000 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'50 MP OIS', frontCam:'13 MP', port:'USB Type-C', highlight:'12 ГБ оперативы + зарядка 70 Вт' },
+  'Pova 7 Ultra|8/256': { brand:'Tecno', screen:'6.67" AMOLED 1.5K 144Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 70W', os:'Android 15 + HiOS 15', mainCam:'108 MP + 8 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Зарядка 70 Вт + беспроводная 30 Вт' },
+  'Pova 8|8/128': { brand:'Tecno', screen:'6.76" IPS 144Hz', ram:'8 GB', rom:'128 GB', battery:'8000 мАч, 45W', os:'Android 16 + HiOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Батарея 8000 мАч + мини-экран Alive Matrix' },
+  'Pova 8|8/256': { brand:'Tecno', screen:'6.76" IPS 144Hz', ram:'8 GB', rom:'256 GB', battery:'8000 мАч, 45W', os:'Android 16 + HiOS 16', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Батарея 8000 мАч + мини-экран Alive Matrix' },
+  'Spark 30|8/128': { brand:'Tecno', screen:'6.78" IPS 90Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 14 + HiOS 14', mainCam:'64 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Камера 64 МП Sony + IP64 + NFC' },
+  'Spark 30|8/256': { brand:'Tecno', screen:'6.78" IPS 90Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 18W', os:'Android 14 + HiOS 14', mainCam:'64 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Камера 64 МП Sony + 256 ГБ' },
+  'Spark 40|4/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Зарядка 45 Вт + ИИ-ассистент Ella' },
+  'Spark 40|8/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Зарядка 45 Вт + 8 ГБ RAM' },
+  'Spark 40|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + зарядка 45 Вт' },
+  'Spark 40 Pro|8/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Зарядка 45 Вт + 8 ГБ RAM' },
+  'Spark 40 Pro|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + зарядка 45 Вт' },
+  'Spark 40 Pro Plus|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5200 мАч, 45W', os:'Android 15 + HiOS 15', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + зарядка 45 Вт' },
+  'Spark 40C|4/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'120 Гц + 128 ГБ' },
+  'Spark 40C|8/128': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'120 Гц + 8 ГБ RAM' },
+  'Spark 40C|8/256': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 18W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'120 Гц + 256 ГБ' },
+  'Spark 50|4/128': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Батарея 6700 мАч + стереодинамики DTS' },
+  'Spark 50|6/128': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'6 GB', rom:'128 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Батарея 6700 мАч + 6 ГБ RAM' },
+  'Spark 50|8/128': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'128 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'8 ГБ оперативы + батарея 6700 мАч' },
+  'Spark 50|8/256': { brand:'Tecno', screen:'6.78" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6700 мАч, 18W', os:'Android 16 + HiOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'256 ГБ + батарея 6700 мАч' },
+  'Spark Go 1|4/64': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'5000 мАч, 15W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Экран 120 Гц + 64 ГБ' },
+  'Spark Go 2|3/64': { brand:'Tecno', screen:'6.67" IPS 120Hz', ram:'3 GB', rom:'64 GB', battery:'5000 мАч, 10W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Самый бюджетный + батарея 5000 мАч' },
+  'Spark Go 3|4/64': { brand:'Tecno', screen:'6.74" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'5000 мАч, 15W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Экран 120 Гц + защита IP64' },
+  'Spark Go 3|4/128': { brand:'Tecno', screen:'6.74" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 15W', os:'Android 15 Go', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'128 ГБ + экран 120 Гц + IP64' },
+
+  // Realme
+  'C100i|4/128': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'128 GB', battery:'7000 мАч, 15W', os:'Android 16 + realme UI 7.0', mainCam:'8 MP, f/2.0', frontCam:'5 MP, f/2.2', port:'USB Type-C, 3.5 мм', highlight:'Батарея 7000 мАч + ArmorShell' },
+  'C100i|4/64': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'64 GB', battery:'7000 мАч, 15W', os:'Android 16 + realme UI 7.0', mainCam:'8 MP, f/2.0', frontCam:'5 MP, f/2.2', port:'USB Type-C, 3.5 мм', highlight:'Батарея 7000 мАч + ArmorShell' },
+  'C100x|4/128': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'128 GB', battery:'8000 мАч, 45W', os:'Android 16 + realme UI 7.0', mainCam:'50 MP, f/1.8', frontCam:'5 MP, f/2.2', port:'USB Type-C', highlight:'Батарея 8000 мАч + зарядка 45 Вт' },
+  'C100x|4/256': { brand:'Realme', screen:'6.8" IPS HD+ 120Hz, 900 нит', ram:'4 GB', rom:'256 GB', battery:'8000 мАч, 45W', os:'Android 16 + realme UI 7.0', mainCam:'50 MP, f/1.8', frontCam:'5 MP, f/2.2', port:'USB Type-C', highlight:'Батарея 8000 мАч + 256 ГБ' },
+  'C85|6/128': { brand:'Realme', screen:'6.8" IPS HD+ 144Hz, 1200 нит', ram:'6 GB', rom:'128 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP Sony IMX852', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'IP69 Pro + 144 Гц + Titan Battery' },
+  'C85|8/256': { brand:'Realme', screen:'6.8" IPS HD+ 144Hz, 1200 нит', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP Sony IMX852', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'IP69 Pro + 8 ГБ RAM' },
+  'C85 Pro|6/128': { brand:'Realme', screen:'6.8" AMOLED FHD+ 120Hz, 4000 нит', ram:'6 GB', rom:'128 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'AMOLED 4000 нит + IP69 Pro' },
+  'C85 Pro|8/256': { brand:'Realme', screen:'6.8" AMOLED FHD+ 120Hz, 4000 нит', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'AMOLED 4000 нит + 8 ГБ RAM' },
+  'Note 60x|3/64': { brand:'Realme', screen:'6.74" IPS 90Hz', ram:'3 GB', rom:'64 GB', battery:'5000 мАч, 10W', os:'Android 14 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'ArmorShell + батарея 5000 мАч' },
+  'Note 60x|4/128': { brand:'Realme', screen:'6.74" IPS 90Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч, 10W', os:'Android 14 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'ArmorShell + 128 ГБ' },
+  'Note 70|6/128': { brand:'Realme', screen:'6.74" IPS 90Hz', ram:'6 GB', rom:'128 GB', battery:'6300 мАч, 15W', os:'Android 15 + realme UI', mainCam:'13 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 6300 мАч + ArmorShell' },
+  'Note 80|4/64': { brand:'Realme', screen:'6.74" LCD HD+ 90Hz', ram:'4 GB', rom:'64 GB', battery:'6300 мАч, 15W', os:'Android 15 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C, 3.5 мм', highlight:'Батарея 6300 мАч + ArmorShell' },
+  'Note 80|4/128': { brand:'Realme', screen:'6.74" LCD HD+ 90Hz', ram:'4 GB', rom:'128 GB', battery:'6300 мАч, 15W', os:'Android 15 + realme UI', mainCam:'8 MP', frontCam:'5 MP', port:'USB Type-C, 3.5 мм', highlight:'128 ГБ + батарея 6300 мАч' },
+  'C71|6/128': { brand:'Realme', screen:'6.67" LCD HD+ 120Hz', ram:'6 GB', rom:'128 GB', battery:'6300 мАч, 45W', os:'Android 15 + realme UI', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 6300 мАч + 45 Вт' },
+  'C71|8/128': { brand:'Realme', screen:'6.67" LCD HD+ 120Hz', ram:'8 GB', rom:'128 GB', battery:'6300 мАч, 45W', os:'Android 15 + realme UI', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 6300 мАч + 8 ГБ RAM' },
+  'C71|8/256': { brand:'Realme', screen:'6.67" LCD HD+ 120Hz', ram:'8 GB', rom:'256 GB', battery:'6300 мАч, 45W', os:'Android 15 + realme UI', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'256 ГБ + 45 Вт' },
+  'C75|8/128': { brand:'Realme', screen:'6.72" IPS 90Hz', ram:'8 GB', rom:'128 GB', battery:'5828 мАч, 45W', os:'Android 14 + realme UI 5.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Защита IP69 + зарядка 45 Вт' },
+  'C75|8/256': { brand:'Realme', screen:'6.72" IPS 90Hz', ram:'8 GB', rom:'256 GB', battery:'5828 мАч, 45W', os:'Android 14 + realme UI 5.0', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C, 3.5 мм', highlight:'Защита IP69 + 256 ГБ' },
+  '14T|8/128': { brand:'Realme', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'6000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'5G + зарядка 45 Вт + AMOLED' },
+  '14T|8/256': { brand:'Realme', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 45W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'5G + 256 ГБ + AMOLED' },
+  '15|8/256': { brand:'Realme', screen:'6.57" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 60W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + зарядка 60 Вт' },
+  '15|12/256': { brand:'Realme', screen:'6.57" AMOLED 120Hz', ram:'12 GB', rom:'256 GB', battery:'7000 мАч, 60W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'12 ГБ RAM + AMOLED 120 Гц' },
+  '15 Pro|8/256': { brand:'Realme', screen:'6.78" AMOLED 144Hz', ram:'8 GB', rom:'256 GB', battery:'7100 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + зарядка 80 Вт' },
+  '16|8/256': { brand:'Realme', screen:'6.57" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 60W', os:'Android 15 + realme UI 6.0', mainCam:'50 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + зарядка 60 Вт' },
+  '16 Pro|8/256': { brand:'Realme', screen:'6.78" AMOLED 144Hz', ram:'8 GB', rom:'256 GB', battery:'7100 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + зарядка 80 Вт' },
+  '16 Pro Plus|8/256': { brand:'Realme', screen:'6.8" AMOLED 144Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'Камера 200 МП + 80 Вт' },
+  '16 Pro Plus|12/512': { brand:'Realme', screen:'6.8" AMOLED 144Hz', ram:'12 GB', rom:'512 GB', battery:'7000 мАч, 80W', os:'Android 15 + realme UI 6.0', mainCam:'200 MP', frontCam:'50 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM + 200 МП' },
+
+  // Xiaomi
+  'REDMI 15|6/128': { brand:'Xiaomi', screen:'6.9" IPS 144Hz', ram:'6 GB', rom:'128 GB', battery:'7000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Батарея 7000 мАч + экран 144 Гц' },
+  'REDMI 15|8/256': { brand:'Xiaomi', screen:'6.9" IPS 144Hz', ram:'8 GB', rom:'256 GB', battery:'7000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'256 ГБ + батарея 7000 мАч' },
+  'REDMI 15C|4/128': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Защита IP64 + 120 Гц' },
+  'REDMI 15C|4/256': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'256 GB', battery:'6000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'256 ГБ + защита IP64' },
+  'REDMI 15C|8/256': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'6000 мАч, 33W', os:'Android 15 + HyperOS', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 256 ГБ' },
+  'REDMI 17|4/128': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'7500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'5G + экран 120 Гц + батарея 7500 мАч' },
+  'REDMI 17|4/256': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'4 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'5G + 256 ГБ + 7500 мАч' },
+  'REDMI 17|8/256': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'8 GB', rom:'256 GB', battery:'7500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'5G + 8 ГБ RAM + 7500 мАч' },
+  'REDMI A5|4/128': { brand:'Xiaomi', screen:'6.88" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'5200 мАч, 15W', os:'Android 15 Go', mainCam:'32 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Самый доступный + камера 32 МП' },
+  'REDMI A7 Pro|4/64': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'64 GB', battery:'6000 мАч, 15W', os:'Android 16 + HyperOS 3', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'Большой экран 6.9" + 6000 мАч' },
+  'REDMI A7 Pro|4/128': { brand:'Xiaomi', screen:'6.9" IPS 120Hz', ram:'4 GB', rom:'128 GB', battery:'6000 мАч, 15W', os:'Android 16 + HyperOS 3', mainCam:'13 MP', frontCam:'8 MP', port:'USB Type-C', highlight:'128 ГБ + экран 6.9"' },
+  'REDMI Note 13|6/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 33W', os:'Android 13 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + камера 108 МП' },
+  'REDMI Note 13|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 33W', os:'Android 13 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'8 ГБ RAM + AMOLED 120 Гц' },
+  'REDMI Note 13|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 33W', os:'Android 13 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'256 ГБ + AMOLED 120 Гц' },
+  'REDMI Note 13 Pro|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5100 мАч, 67W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'Камера 200 МП OIS + 67 Вт' },
+  'REDMI Note 13 Pro|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5100 мАч, 67W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'256 ГБ + камера 200 МП' },
+  'REDMI Note 13 Pro|12/512': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'12 GB', rom:'512 GB', battery:'5100 мАч, 67W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM' },
+  'REDMI Note 13 Pro Plus|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 120W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'Зарядка 120 Вт + камера 200 МП' },
+  'REDMI Note 13 Pro Plus|12/512': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'12 GB', rom:'512 GB', battery:'5000 мАч, 120W', os:'Android 13 + MIUI 14', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'512 ГБ + 120 Вт' },
+  'REDMI Note 14|6/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5500 мАч, 33W', os:'Android 14 + HyperOS', mainCam:'108 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + камера 108 МП' },
+  'REDMI Note 14|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5500 мАч, 33W', os:'Android 14 + HyperOS', mainCam:'108 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'8 ГБ RAM + AMOLED 120 Гц' },
+  'REDMI Note 14|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5500 мАч, 33W', os:'Android 14 + HyperOS', mainCam:'108 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'256 ГБ + AMOLED 120 Гц' },
+  'REDMI Note 14 Pro|8/256': { brand:'Xiaomi', screen:'6.67" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'5110 мАч, 45W', os:'Android 14 + HyperOS', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'Камера 200 МП + AMOLED 1.5K' },
+  'REDMI Note 14 Pro|12/512': { brand:'Xiaomi', screen:'6.67" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'512 GB', battery:'5110 мАч, 45W', os:'Android 14 + HyperOS', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM' },
+  'REDMI Note 14S|8/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 67W', os:'Android 14 + HyperOS', mainCam:'200 MP OIS', frontCam:'16 MP', port:'USB Type-C', highlight:'Камера 200 МП OIS + 67 Вт' },
+  'REDMI Note 15|6/128': { brand:'Xiaomi', screen:'6.78" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5800 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + 45 Вт' },
+  'REDMI Note 15|8/128': { brand:'Xiaomi', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5800 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'8 ГБ RAM + AMOLED 120 Гц' },
+  'REDMI Note 15|8/256': { brand:'Xiaomi', screen:'6.78" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5800 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'256 ГБ + 45 Вт' },
+  'REDMI Note 15 Pro|8/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'Защита IP68 + батарея 6580 мАч' },
+  'REDMI Note 15 Pro|8/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'512 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + IP68' },
+  'REDMI Note 15 Pro|12/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'256 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'12 ГБ RAM + IP68' },
+  'REDMI Note 15 Pro|12/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'512 GB', battery:'6580 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + 12 ГБ RAM' },
+  'REDMI Note 15 Pro Plus|12/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'512 GB', battery:'6500 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'200 MP OIS', frontCam:'32 MP', port:'USB Type-C', highlight:'Зарядка 100 Вт + 512 ГБ' },
+  'REDMI Note 17|4/128': { brand:'Xiaomi', screen:'6.99" AMOLED 120Hz', ram:'4 GB', rom:'128 GB', battery:'7700 мАч, 45W', os:'Android 15 + HyperOS 6', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Экран AMOLED 120 Гц + 7700 мАч' },
+  'REDMI Note 17|6/256': { brand:'Xiaomi', screen:'6.99" AMOLED 120Hz', ram:'6 GB', rom:'256 GB', battery:'7700 мАч, 45W', os:'Android 15 + HyperOS 6', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'256 ГБ + AMOLED 120 Гц' },
+  'REDMI Note 17|8/256': { brand:'Xiaomi', screen:'6.99" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'7700 мАч, 45W', os:'Android 15 + HyperOS 6', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 7700 мАч' },
+  'REDMI Note 17 Pro|6/128': { brand:'Xiaomi', screen:'6.88" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'Камера 200 МП + 45 Вт' },
+  'REDMI Note 17 Pro|8/256': { brand:'Xiaomi', screen:'6.88" AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 200 МП' },
+  'REDMI Note 17 Pro|8/512': { brand:'Xiaomi', screen:'6.88" AMOLED 120Hz', ram:'8 GB', rom:'512 GB', battery:'5500 мАч, 45W', os:'Android 15 + HyperOS 2', mainCam:'200 MP', frontCam:'20 MP', port:'USB Type-C', highlight:'512 ГБ + 200 МП' },
+  'REDMI Note 17 Pro Max|8/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'256 GB', battery:'10000 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'Батарея 10000 мАч + IP68 + 100 Вт' },
+  'REDMI Note 17 Pro Max|8/512': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'8 GB', rom:'512 GB', battery:'10000 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'512 ГБ + 10000 мАч' },
+  'REDMI Note 17 Pro Max|12/256': { brand:'Xiaomi', screen:'6.83" AMOLED 1.5K 120Hz', ram:'12 GB', rom:'256 GB', battery:'10000 мАч, 100W', os:'Android 15 + HyperOS 2', mainCam:'50 MP OIS + 8 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'12 ГБ RAM + 10000 мАч' },
+  'Poco M5|6/128': { brand:'Xiaomi', screen:'6.58" IPS 90Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 18W', os:'Android 12 + MIUI 13', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Чип Helio G99 + Gorilla Glass' },
+  'Poco X5 Pro|6/128': { brand:'Xiaomi', screen:'6.67" AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 67W', os:'Android 12 + MIUI 14', mainCam:'108 MP', frontCam:'16 MP', port:'USB Type-C', highlight:'AMOLED 120 Гц + 67 Вт' },
+  '17T|12/512': { brand:'Xiaomi', screen:'6.83" AMOLED 120Hz', ram:'12 GB', rom:'512 GB', battery:'5500 мАч, 90W', os:'Android 15 + HyperOS 2', mainCam:'50 MP', frontCam:'32 MP', port:'USB Type-C', highlight:'512 ГБ + 90 Вт' },
+
+  // Samsung
+  'Galaxy A08|4/64': { brand:'Samsung', screen:'6.7" PLS LCD 90Hz', ram:'4 GB', rom:'64 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'Камера 50 МП + 5000 мАч' },
+  'Galaxy A08|6/128': { brand:'Samsung', screen:'6.7" PLS LCD 90Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'6 ГБ RAM + камера 50 МП' },
+  'Galaxy A17|4/128': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'4 GB', rom:'128 GB', battery:'5000 мАч', os:'Android 15 + One UI 7', mainCam:'50 MP OIS', frontCam:'13 MP', port:'USB Type-C', highlight:'Super AMOLED + OIS + 6 лет обновлений' },
+  'Galaxy A26|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 8 MP + 2 MP', frontCam:'13 MP', port:'USB Type-C', highlight:'IP67 + 6 лет обновлений + OIS' },
+  'Galaxy A27|6/128': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'6 GB', rom:'128 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS', frontCam:'12 MP', port:'USB Type-C', highlight:'6 лет обновлений + Gemini AI + IP64' },
+  'Galaxy A27|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 25W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS', frontCam:'12 MP', port:'USB Type-C', highlight:'8 ГБ RAM + 6 лет обновлений' },
+  'Galaxy A36|8/128': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'128 GB', battery:'5000 мАч, 45W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 8 MP + 5 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'IP67 + Gorilla Glass Victus+ + 45 Вт' },
+  'Galaxy A36|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 8 MP + 5 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'256 ГБ + IP67 + 45 Вт' },
+  'Galaxy A56|8/256': { brand:'Samsung', screen:'6.7" Super AMOLED 120Hz', ram:'8 GB', rom:'256 GB', battery:'5000 мАч, 45W', os:'Android 15 + One UI 7', mainCam:'50 MP OIS + 12 MP + 5 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'6 лет обновлений + IP67 + 45 Вт' },
+  'Galaxy S26|12/256': { brand:'Samsung', screen:'6.3" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'256 GB', battery:'4300 мАч, 25W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'Exynos 2600 + 120 Гц AMOLED' },
+  'Galaxy S26|12/512': { brand:'Samsung', screen:'6.3" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'512 GB', battery:'4300 мАч, 25W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'512 ГБ + Exynos 2600' },
+  'Galaxy S26 Plus|12/256': { brand:'Samsung', screen:'6.7" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'256 GB', battery:'4900 мАч, 45W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'QHD+ экран + 45 Вт' },
+  'Galaxy S26 Plus|12/512': { brand:'Samsung', screen:'6.7" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'512 GB', battery:'4900 мАч, 45W', os:'Android 16 + One UI 8.5', mainCam:'50 MP OIS + 10 MP + 12 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'512 ГБ + 45 Вт' },
+  'Galaxy S26 Ultra|12/256': { brand:'Samsung', screen:'6.9" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'256 GB', battery:'5000 мАч', os:'Android 16 + One UI 8.5', mainCam:'200 MP OIS + 50 MP + 50 MP + 10 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'200 МП + S Pen + Privacy Display' },
+  'Galaxy S26 Ultra|12/512': { brand:'Samsung', screen:'6.9" Dynamic AMOLED 2X 120Hz', ram:'12 GB', rom:'512 GB', battery:'5000 мАч', os:'Android 16 + One UI 8.5', mainCam:'200 MP OIS + 50 MP + 50 MP + 10 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'512 ГБ + S Pen' },
+  'Galaxy S26 Ultra|16/1TB': { brand:'Samsung', screen:'6.9" Dynamic AMOLED 2X 120Hz', ram:'16 GB', rom:'1 TB', battery:'5000 мАч', os:'Android 16 + One UI 8.5', mainCam:'200 MP OIS + 50 MP + 50 MP + 10 MP', frontCam:'12 MP', port:'USB Type-C', highlight:'1 ТБ + 16 ГБ RAM + S Pen' },
+
+  // Apple
+  'iPhone 17|8/256': { brand:'Apple', screen:'6.3" Super Retina XDR 120Hz', ram:'8 GB', rom:'256 GB', battery:'до 30 ч видео', os:'iOS 19', mainCam:'48 MP + 12 MP', frontCam:'18 MP', port:'USB Type-C', highlight:'Чип A19 + экран 120 Гц + батарея до 30 ч видео' },
+  'iPhone 17 Pro|12/256': { brand:'Apple', screen:'6.3" Super Retina XDR 120Hz', ram:'12 GB', rom:'256 GB', battery:'до 31 ч видео', os:'iOS 19', mainCam:'48 MP + 48 MP + 48 MP', frontCam:'18 MP', port:'USB Type-C', highlight:'Чип A19 Pro + титановый корпус + камера 48 МП ×3' },
+  'iPhone 17 Pro Max|12/256': { brand:'Apple', screen:'6.9" Super Retina XDR 120Hz', ram:'12 GB', rom:'256 GB', battery:'до 37 ч видео', os:'iOS 19', mainCam:'48 MP + 48 MP + 48 MP', frontCam:'18 MP', port:'USB Type-C', highlight:'Чип A19 Pro + 6.9" экран + батарея до 37 ч видео' }
 };
 
 const ADDONS = [
-  { id: 'cyber12', name: 'КиберЗащита+', type: 'fixed', price: 2990, desc: 'Новейший антивирус с ИИ для защиты данных и счетов на Android.', features: ['Компенсация до 700 000 ₽', 'Защита банковских карт', 'Работает на 3-х устройствах'] },
   { id: 'alfa_complex', name: 'Альфа Комплексная защита', type: 'percent', percent: 0.28, desc: 'Защита от поломок, кражи, залива и скачков напряжения. Продлевает гарантию производителя на 12 месяцев.', features: ['Ремонт или компенсация', 'Продление гарантии', 'Защита от кражи'] },
   { id: 'vsk_complex', name: 'ВСК Комплекс+', type: 'percent', percent: 0.40, desc: 'Защита и обмен техники. Возврат до 70% стоимости при поломке. Действует 24 месяца.', features: ['Возврат до 70% стоимости', 'Ремонт без ограничений', 'Срок действия 24 мес'] },
   { id: 'vsk_super', name: 'ВСК Сверх Возм.', type: 'percent', percent: 0.28, desc: 'Комплексная защита + продление гарантии производителя.', features: ['Все риски', 'Продление гарантии', 'Защита от кражи'] },
@@ -612,7 +580,14 @@ const ADDONS = [
   { id: 'smart_protect', name: 'SmartProtect', type: 'percent', percent: 0.28, desc: 'Гарантия возврата до 70% стоимости на покупку нового устройства в течение года. Принимают даже без комплекта.', features: ['Возврат до 70%', 'Принимают без комплекта', 'Обмен в течение года'] }
 ];
 
-let activeAddon = 'cyber12'; // Сегодня по умолчанию Киберзащита
+const EXTRA_PRODUCTS = [
+  { id: 'bundle', name: 'Бандл PRO32 + Wink', price: 3750, discount: 0.05, maxPrice: 25000, desc: 'Доп. скидка 5% на смартфоны до 25 000 ₽' },
+  { id: 'combo', name: 'КомбоЗащита 12 мес', price: 2298, discount: 0.10, maxPrice: 15000, desc: 'Доп. скидка 10% на смартфоны до 15 000 ₽' }
+];
+
+const eligibleAddons = ['alfa_complex', 'alfa_total', 'vsk_total'];
+let activeAddon = 'alfa_complex';
+let activeExtra = null; 
 
 const REGION_META = {
   'Барнаул': { emoji: '⚒️', sim3: 2400, sim12: 9150 },
@@ -880,51 +855,66 @@ function determineDiscount(brand, modelName, price, memory) {
   return price > 15000 ? 0.20 : 0.25;
 }
 
-function calcCombo(price, discount, addonId, isApple, regionData) {
+function calcCombo(price, discount, addonId, isApple, regionData, extraId = null) {
   const isExpensive = price >= 40000;
+  const isStandardDiscount = (discount === 0.20 || discount === 0.25);
+
   let sim, simName;
+  let finalDiscount = discount;
 
   if (isApple) {
     sim = regionData.sim12;
     simName = 'SIM t2 Мой Онлайн+ 12мес КОМБО';
+    finalDiscount = 0.15;
+  } else if (!isStandardDiscount) {
+    sim = regionData.sim3;
+    simName = 'SIM t2 Мой Онлайн+ 3мес КОМБО';
+    finalDiscount = discount;
   } else if (isExpensive) {
     sim = regionData.sim12;
     simName = 'SIM t2 Мой Онлайн+ 12мес КОМБО';
+    finalDiscount = 0.20;
   } else {
     sim = regionData.sim3;
     simName = 'SIM t2 Мой Онлайн+ 3мес КОМБО';
+    finalDiscount = discount;
   }
 
   let addon = ADDONS.find(a => a.id === addonId) || ADDONS[0];
-  let finalDiscount = discount;
+  let addonPrice = Math.round(price * addon.percent);
 
-  if (addon.id === 'cyber12' && (isApple || isExpensive)) {
-    return {
-      phoneCombo: price, sim, simName,
-      addon: 0,
-      addonName: isApple ? 'КиберЗащита недоступна' : 'КиберЗащита недоступна (цена ≥ 40 000 ₽)',
-      total: price + sim,
-      benefit: -sim,
-      noDiscount: true
-    };
+  let extraPrice = 0;
+  let extraDiscount = 0;
+  let extraName = '';
+
+  if (extraId && eligibleAddons.includes(addonId)) {
+    const extra = EXTRA_PRODUCTS.find(e => e.id === extraId);
+    if (extra) {
+      extraPrice = extra.price;
+      extraName = extra.name;
+      if (price <= extra.maxPrice) {
+        extraDiscount = price * extra.discount;
+      }
+    }
   }
 
-  let addonPrice = addon.type === 'fixed'
-    ? (addon.id === 'cyber12' && price >= 25000 ? 4990 : addon.price)
-    : Math.round(price * addon.percent);
-  const phoneCombo = Math.round(price * (1 - finalDiscount));
-  const total = phoneCombo + sim + addonPrice;
-  
+  const totalDiscountAmount = (price * finalDiscount) + extraDiscount;
+  const phoneCombo = Math.round(price - totalDiscountAmount);
+  const total = phoneCombo + sim + addonPrice + extraPrice;
+
   return { 
     phoneCombo, 
     sim, 
     simName, 
     addon: addonPrice, 
     addonName: addon.name, 
+    extraName: extraName,
+    extraPrice: extraPrice,
     total, 
     benefit: price - total, 
     noDiscount: false,
-    appliedDiscount: finalDiscount 
+    appliedDiscount: finalDiscount,
+    extraDiscount: extraDiscount > 0 ? (extraDiscount / price) : 0 
   };
 }
 
@@ -1023,7 +1013,11 @@ function renderControls() {
   addonGrid.querySelectorAll('.addon-chip').forEach(btn => {
     btn.addEventListener('click', () => {
       activeAddon = btn.dataset.addon;
+      activeExtra = null; 
       renderControls(); renderAll(); renderPresentation();
+      if (document.getElementById('detailPanel').classList.contains('open')) {
+        document.getElementById('detailBody').innerHTML = ''; 
+      }
     });
   });
   const descPanel = document.getElementById('descPanel');
@@ -1069,13 +1063,11 @@ function renderContent(){
       const specKey = `${it.brand} ${it.model}|${it.memory}`;
       const colorEntries = Object.entries(it.colors).sort((a,b) => b[1] - a[1]);
       const colorDots = colorEntries.map(([color, qty]) => `<span class="color-dot color-dot--${color}" title="${color}: ${qty}"></span>`).join('');
-      const combo = calcCombo(it.price, disc, activeAddon, it.brand === 'Apple', currentRegionData);
+      const combo = calcCombo(it.price, disc, activeAddon, it.brand === 'Apple', currentRegionData, null);
       
-      let benefitHtml = combo.noDiscount 
-        ? `<span class="benefit-pill benefit-pill--neg" style="font-size:11px;">${it.price >= 40000 ? 'Только страховка' : 'Нужна страховка'}</span>`
-        : (combo.benefit >= 0 
+      let benefitHtml = combo.benefit >= 0 
           ? `<span class="benefit-pill benefit-pill--pos"><span class="benefit-pill__sticker">Выгодно!</span>+${combo.benefit.toLocaleString('ru-RU')} ₽</span>`
-          : `<span class="benefit-pill benefit-pill--neg">${combo.benefit.toLocaleString('ru-RU')} ₽</span>`);
+          : `<span class="benefit-pill benefit-pill--neg">${combo.benefit.toLocaleString('ru-RU')} ₽</span>`;
 
       return `<tr class="stock-row" data-spec-key="${specKey}">
         <td><div class="stock-row__name">${it.brand} ${it.model}</div><div class="stock-row__memory">${it.memory}</div></td>
@@ -1126,8 +1118,8 @@ function renderPresentation(){
     if (groupModels.length === 0) return;
     groupModels.sort((a,b) => a.brand.localeCompare(b.brand) || a.model.localeCompare(b.model) || a.mem.localeCompare(b.mem));
     const cards = groupModels.map(m => {
-      const combo = calcCombo(m.price, m.discount, activeAddon, m.brand === 'Apple', currentRegionData);
-      const priceString = combo.noDiscount ? `<span style="color:var(--benefit-neg); font-size:11px;">Только страховка</span>` : `По комбо: <b>${combo.phoneCombo.toLocaleString('ru-RU')} ₽</b>`;
+      const combo = calcCombo(m.price, m.discount, activeAddon, m.brand === 'Apple', currentRegionData, null);
+      const priceString = `По комбо: <b>${combo.phoneCombo.toLocaleString('ru-RU')} ₽</b>`;
       return `<div class="pres-card" data-spec-key="${m.key}">
         <div class="pres-card__brand">${m.brand}</div>
         <div class="pres-card__name">${m.model}</div>
@@ -1142,6 +1134,13 @@ function renderPresentation(){
     </section>`;
   });
   presContent.innerHTML = `
+    <div class="pres-banner">
+      <div class="pres-banner__icon">💡</div>
+      <div class="pres-banner__text">
+        <b>Дополнительная скидка с 4-й позицией!</b><br>
+        При выборе страховок «Комплексная защита», «Тотальная защита» или «Тотал Плюс» можно добавить в чек доп. продукт и получить дополнительную <span>скидку 5%</span> (с Бандл PRO32+Wink) или <span>скидку 10%</span> (с КомбоЗащита 12 мес).
+      </div>
+    </div>
     <div class="pres-hero">
       <h1 class="pres-hero__title">Скидка на <span>смартфоны</span><br>при покупке в комбо</h1>
       <p class="pres-hero__sub">Купи смартфон + SIM t2 + любой продукт защиты — получи скидку от 15% до 35%</p>
@@ -1154,11 +1153,30 @@ function renderPresentation(){
 
 function openDetail(specKey, sourceEl){
   let spec = SPECS[specKey];
+  
+  // 1. Пытаемся найти точное совпадение
+  if (!spec) {
+    // 2. Если точного нет, ищем по началу модели (игнорируя память)
+    const modelPart = specKey.split('|')[0]; // Например: "Galaxy A08"
+    const brand = modelPart.split(' ')[0]; // Samsung
+    const modelName = modelPart.split(' ').slice(1).join(' '); // Galaxy A08
+    
+    // Ищем любой ключ, который начинается с бренда и модели
+    for (const k in SPECS) {
+      if (k.startsWith(brand + ' ' + modelName + '|')) {
+        spec = SPECS[k];
+        break;
+      }
+    }
+  }
+
+  // 3. Если вообще ничего не нашли — показываем заглушку
   if (!spec) {
     const [nameMem, mem] = specKey.split('|');
     const [brand] = nameMem.split(' ');
     spec = { brand, screen:'—', ram: mem.split('/')[0]+' GB', rom: mem.split('/')[1]+' GB', battery:'—', os:'—', mainCam:'—', frontCam:'—', port:'—', highlight:'Характеристики уточняются' };
   }
+  
   const [nameMem, mem] = specKey.split('|');
   let rawItem = null;
   for (const shop in currentRegionData.stock) { if (currentRegionData.stock[shop][specKey]) { rawItem = currentRegionData.stock[shop][specKey]; break; } }
@@ -1166,32 +1184,65 @@ function openDetail(specKey, sourceEl){
   const brand = rawItem.brand, model = rawItem.model, price = rawItem.price;
   const discount = determineDiscount(brand, model, price, mem);
   const isApple = brand === 'Apple';
-  const combo = calcCombo(price, discount, activeAddon, isApple, currentRegionData);
-
-  const cyberBlocked = activeAddon.includes('cyber') && (isApple || price >= 40000);
-  document.getElementById('detailTitle').textContent = `${brand} ${model} ${mem}`;
-  document.getElementById('detailBadge').textContent = cyberBlocked ? `КиберЗащита недоступна` : `Комбо ${Math.round(discount*100)}%`;
-
-  let calcHtml = '';
-  if (combo.noDiscount) {
-    calcHtml = `
-      <div class="calc-row"><span class="calc-row__label">Базовая цена</span><span class="calc-row__value">${price.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-row"><span class="calc-row__label">${combo.simName}</span><span class="calc-row__value">${combo.sim.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-row"><span class="calc-row__label">${combo.addonName}</span><span class="calc-row__value">0 ₽</span></div>
-      <div class="calc-row calc-row--total"><span class="calc-row__label">ИТОГО</span><span class="calc-row__value">${combo.total.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-benefit calc-benefit--neg"><span class="calc-benefit__label">Внимание</span><span class="calc-benefit__value" style="font-size:13px;">Нужна страховка (не КиберЗащита)</span></div>`;
-  } else {
-    let benefitBlock = combo.benefit >= 0
-      ? `<div class="calc-benefit"><span class="calc-benefit__label"><span class="calc-benefit__sticker">Выгодно!</span>Разница с голым</span><span class="calc-benefit__value">+${combo.benefit.toLocaleString('ru-RU')} ₽</span></div>`
-      : `<div class="calc-benefit calc-benefit--neg"><span class="calc-benefit__label">Разница с голым</span><span class="calc-benefit__value">${combo.benefit.toLocaleString('ru-RU')} ₽</span></div>`;
-    calcHtml = `
-      <div class="calc-row"><span class="calc-row__label">Базовая цена</span><span class="calc-row__value">${price.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-row"><span class="calc-row__label">Смартфон по комбо (−${Math.round(combo.appliedDiscount*100)}%)</span><span class="calc-row__value">${combo.phoneCombo.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-row"><span class="calc-row__label">${combo.simName}</span><span class="calc-row__value">${combo.sim.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-row"><span class="calc-row__label">${combo.addonName}</span><span class="calc-row__value">${combo.addon.toLocaleString('ru-RU')} ₽</span></div>
-      <div class="calc-row calc-row--total"><span class="calc-row__label">ИТОГО по комбо</span><span class="calc-row__value">${combo.total.toLocaleString('ru-RU')} ₽</span></div>
-      ${benefitBlock}`;
+  
+  const isEligibleForExtra = eligibleAddons.includes(activeAddon);
+  if (!isEligibleForExtra) {
+    activeExtra = null;
   }
+
+  const combo = calcCombo(price, discount, activeAddon, isApple, currentRegionData, activeExtra);
+
+  const isExpensive = price >= 40000;
+  let badgeText = `Комбо ${Math.round(discount*100)}%`;
+  if (isExpensive && !isApple) badgeText = 'Комбо 20% (12 мес SIM)';
+  if (isApple) badgeText = 'Комбо 15% (12 мес SIM)';
+
+  document.getElementById('detailTitle').textContent = `${brand} ${model} ${mem}`;
+  document.getElementById('detailBadge').textContent = badgeText;
+
+  let extraHtml = '';
+  if (isEligibleForExtra) {
+    const extraBundle = EXTRA_PRODUCTS.find(e => e.id === 'bundle');
+    const extraCombo = EXTRA_PRODUCTS.find(e => e.id === 'combo');
+    const isBundleDisabled = price > extraBundle.maxPrice;
+    const isComboDisabled = price > extraCombo.maxPrice;
+
+    extraHtml = `
+      <div style="background: var(--t2-card-soft); border-bottom: 1px solid var(--t2-border); padding: 12px 16px;">
+        <div style="font-size: 11px; font-weight: 800; color: var(--t2-pink-light); text-transform: uppercase; margin-bottom: 10px;">
+          Добавить 4-ю позицию (доп. скидка)
+        </div>
+        <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--t2-card); border: 1px solid ${activeExtra === 'bundle' ? 'var(--t2-pink)' : 'var(--t2-pink-border)'}; border-radius: 8px; margin-bottom: 8px; cursor: ${isBundleDisabled ? 'not-allowed' : 'pointer'}; opacity: ${isBundleDisabled ? 0.5 : 1};">
+          <input type="checkbox" ${activeExtra === 'bundle' ? 'checked' : ''} ${isBundleDisabled ? 'disabled' : ''} onclick="toggleExtra('bundle')" style="width: 18px; height: 18px; accent-color: var(--t2-pink);">
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: #fff; font-size: 13px;">${extraBundle.name}</div>
+            <div style="font-size: 11px; color: var(--t2-muted);">${extraBundle.price} ₽ · <span style="color: var(--benefit-pos); font-weight: 800;">Скидка +${Math.round(extraBundle.discount*100)}%</span> (для смартфонов до ${extraBundle.maxPrice.toLocaleString('ru-RU')} ₽)</div>
+          </div>
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--t2-card); border: 1px solid ${activeExtra === 'combo' ? 'var(--t2-pink)' : 'var(--t2-pink-border)'}; border-radius: 8px; margin-bottom: 8px; cursor: ${isComboDisabled ? 'not-allowed' : 'pointer'}; opacity: ${isComboDisabled ? 0.5 : 1};">
+          <input type="checkbox" ${activeExtra === 'combo' ? 'checked' : ''} ${isComboDisabled ? 'disabled' : ''} onclick="toggleExtra('combo')" style="width: 18px; height: 18px; accent-color: var(--t2-pink);">
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: #fff; font-size: 13px;">${extraCombo.name}</div>
+            <div style="font-size: 11px; color: var(--t2-muted);">${extraCombo.price} ₽ · <span style="color: var(--benefit-pos); font-weight: 800;">Скидка +${Math.round(extraCombo.discount*100)}%</span> (только для смартфонов до ${extraCombo.maxPrice.toLocaleString('ru-RU')} ₽)</div>
+          </div>
+        </label>
+      </div>
+    `;
+  }
+
+  let benefitBlock = combo.benefit >= 0
+    ? `<div class="calc-benefit"><span class="calc-benefit__label"><span class="calc-benefit__sticker">Выгодно!</span>Разница с голым</span><span class="calc-benefit__value">+${combo.benefit.toLocaleString('ru-RU')} ₽</span></div>`
+    : `<div class="calc-benefit calc-benefit--neg"><span class="calc-benefit__label">Разница с голым</span><span class="calc-benefit__value">${combo.benefit.toLocaleString('ru-RU')} ₽</span></div>`;
+  
+  let calcHtml = `
+    <div class="calc-row"><span class="calc-row__label">Базовая цена</span><span class="calc-row__value">${price.toLocaleString('ru-RU')} ₽</span></div>
+    <div class="calc-row"><span class="calc-row__label">Смартфон по комбо (−${Math.round(combo.appliedDiscount*100)}%)</span><span class="calc-row__value">${combo.phoneCombo.toLocaleString('ru-RU')} ₽</span></div>
+    <div class="calc-row"><span class="calc-row__label">${combo.simName}</span><span class="calc-row__value">${combo.sim.toLocaleString('ru-RU')} ₽</span></div>
+    <div class="calc-row"><span class="calc-row__label">${combo.addonName}</span><span class="calc-row__value">${combo.addon.toLocaleString('ru-RU')} ₽</span></div>
+    ${combo.extraPrice > 0 ? `<div class="calc-row"><span class="calc-row__label" style="color: var(--t2-pink-light); font-weight:700;">${combo.extraName} (Скидка +${Math.round(combo.extraDiscount*100)}%)</span><span class="calc-row__value">${combo.extraPrice.toLocaleString('ru-RU')} ₽</span></div>` : ''}
+    <div class="calc-row calc-row--total"><span class="calc-row__label">ИТОГО по комбо</span><span class="calc-row__value">${combo.total.toLocaleString('ru-RU')} ₽</span></div>
+    ${benefitBlock}`;
+
   const intro = {'Honor':'Honor — это надёжность.','Xiaomi':'Xiaomi даёт максимум за свои деньги.','Apple':'iPhone — это эталон.','Realme':'Realme — баланс цены и качества.','Infinix':'Infinix — много функций.','Tecno':'Tecno — стильный дизайн.','Samsung':'Samsung — проверенное качество.'}[brand] || 'Отличный смартфон.';
   const script = `${intro} У этой модели ${spec.highlight.toLowerCase()}. По комбо вы получаете дополнительную скидку — это выгоднее, чем покупать смартфон отдельно.`;
   const body = document.getElementById('detailBody');
@@ -1213,13 +1264,39 @@ function openDetail(specKey, sourceEl){
     </div>
     <div class="calc-box">
       <div class="calc-box__title">Расчёт по комбо</div>
+      ${extraHtml}
       ${calcHtml}
     </div>
-    <div class="formula-note">Механика: смартфон + SIM + продукт защиты. Скидка применяется только при наличии всех трёх позиций в чеке. Для смартфонов дороже 40 000 ₽ и Apple КиберЗащита не применяется — только страховки.</div>`;
+    <div class="formula-note">Механика: смартфон + SIM + продукт защиты. Скидка применяется только при наличии всех трёх позиций в чеке. Для смартфонов дороже 40 000 ₽ и Apple применяется SIM на 12 месяцев.</div>`;
   document.getElementById('detailPanel').classList.add('open');
   document.getElementById('detailOverlay').classList.add('open');
   document.querySelectorAll('.stock-row').forEach(r => r.classList.remove('selected'));
   if (sourceEl && sourceEl.classList.contains('stock-row')) sourceEl.classList.add('selected');
+}
+
+function toggleExtra(id) {
+  const item = EXTRA_PRODUCTS.find(e => e.id === id);
+  const specKey = document.getElementById('detailPanel').dataset.specKey;
+  const [nameMem, mem] = specKey.split('|');
+  let price = 0;
+  for (const shop in currentRegionData.stock) { if (currentRegionData.stock[shop][specKey]) { price = currentRegionData.stock[shop][specKey].price; break; } }
+  
+  if (id === 'bundle' && price > item.maxPrice) return;
+  if (id === 'combo' && price > item.maxPrice) return;
+
+  if (activeExtra === id) {
+    activeExtra = null;
+  } else {
+    activeExtra = id;
+  }
+  
+  openDetail(specKey, null);
+}
+
+const originalOpenDetail = openDetail;
+openDetail = function(specKey, sourceEl) {
+  document.getElementById('detailPanel').dataset.specKey = specKey;
+  originalOpenDetail(specKey, sourceEl);
 }
 
 function closeDetail(){
