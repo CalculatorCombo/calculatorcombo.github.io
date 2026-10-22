@@ -66,6 +66,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .search-box input::placeholder {
   color: var(--t2-muted);
 }
+/* Крестик сброса поиска */
+.search-clear {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border: none; border-radius: 50%;
+  background: rgba(255,255,255,.12);
+  color: var(--t2-muted);
+  font-size: 12px; font-weight: 900;
+  cursor: pointer; flex-shrink: 0;
+  margin-left: 6px;
+  transition: all .15s;
+  font-family: inherit;
+  line-height: 1;
+}
+.search-clear:hover { background: var(--t2-pink); color:#fff; }
+.search-clear.visible { display: flex; }
 
 .header__back{display:none;padding:8px 16px;border:1px solid var(--t2-border);border-radius:9px;background:transparent;color:var(--t2-muted);cursor:pointer;font-weight:700;font-family:inherit;transition:all .18s}
 .header__back:hover{border-color:var(--t2-pink);color:#fff}
@@ -337,9 +355,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   .stock-row__btn{width:100%; padding:10px; font-size:13px; background:rgba(255,0,128,0.1); border:1px solid var(--t2-pink)}
   
   .benefit-pill{font-size:11px; padding:4px 8px; display:flex; flex-direction:column; align-items:flex-end;}
-  .benefit-pill::before {font-size:9px; font-weight:normal; opacity:0.8; margin-bottom:2px}
-  .benefit-pill--pos::before {content: "Выгода"}
-  .benefit-pill--neg::before {content: "Доплата"}
+  .benefit-pill--neg::before {content: "Доплата"; font-size:9px; font-weight:normal; opacity:0.8; margin-bottom:2px}
   
   .mobile-qty-label {font-size: 12px; color: var(--t2-muted); margin-top: 4px; display: block;}
 }
@@ -367,6 +383,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   <!-- ПОИСК -->
   <div class="search-box" id="searchBox">
     <input type="text" id="searchInput" placeholder="Поиск по модели..." autocomplete="off">
+    <button class="search-clear" id="searchClear" type="button" title="Сбросить">✕</button>
   </div>
   
   <button class="header__back" id="backBtn" onclick="goToRegions(event)">← Регионы</button>
@@ -990,6 +1007,7 @@ function goToRegions(e) {
   document.getElementById('backBtn').style.display = 'none';
   document.getElementById('searchBox').style.display = 'none';
   document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
   searchQuery = '';
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   if (Object.keys(REGIONS_DATA).length > 0) document.getElementById('view-regions').classList.add('active');
@@ -1028,6 +1046,11 @@ function renderRegions() {
     card.addEventListener('click', () => {
       activeRegion = card.dataset.region;
       currentRegionData = REGIONS_DATA[activeRegion];
+      // Сброс поиска при выборе региона
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchClear').classList.remove('visible');
+      
       document.getElementById('mainNav').style.display = 'flex';
       document.getElementById('backBtn').style.display = 'block';
       document.getElementById('searchBox').style.display = 'flex';
@@ -1036,6 +1059,7 @@ function renderRegions() {
       document.getElementById('controlsGrid').style.display = 'grid';
       document.getElementById('kpiBar').style.display = 'grid';
       if (currentRegionData.points.length > 0) activeTT = currentRegionData.points[0];
+      else activeTT = null;
       renderAll();
       renderPresentation();
     });
@@ -1080,6 +1104,13 @@ function renderControls() {
 
 function renderKPI(){
   if (!currentRegionData) return;
+  if (!activeTT) {
+    document.getElementById('kpiTT').textContent = '—';
+    document.getElementById('kpiTotal').textContent = '0';
+    document.getElementById('kpiCombo30').textContent = '0';
+    document.getElementById('kpiComboOther').textContent = '0';
+    return;
+  }
   const items = currentRegionData.stock[activeTT] ? Object.values(currentRegionData.stock[activeTT]) : [];
   const total = items.reduce((s, it) => s + it.qty, 0);
   let combo30 = 0, comboOther = 0;
@@ -1096,6 +1127,20 @@ function renderKPI(){
 // Обработчик поиска
 document.getElementById('searchInput').addEventListener('input', (e) => {
   searchQuery = e.target.value.toLowerCase().trim();
+  document.getElementById('searchClear').classList.toggle('visible', searchQuery.length > 0);
+  if (activeView === 'stock') {
+    renderContent();
+  } else if (activeView === 'presentation') {
+    renderPresentation();
+  }
+});
+
+// Крестик сброса поиска
+document.getElementById('searchClear').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  searchQuery = '';
+  document.getElementById('searchInput').focus();
   if (activeView === 'stock') {
     renderContent();
   } else if (activeView === 'presentation') {
@@ -1106,11 +1151,11 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
 function renderContent(){
   const content = document.getElementById('content');
   if (!currentRegionData) { content.innerHTML = `<div class="empty-state">Сначала выберите регион</div>`; return; }
+  if (!activeTT) { content.innerHTML = `<div class="empty-state">В этом регионе нет торговых точек</div>`; return; }
   
   let items = currentRegionData.stock[activeTT] ? Object.values(currentRegionData.stock[activeTT]) : [];
   if (items.length === 0){ content.innerHTML = `<div class="empty-state">Нет остатков по точке «${activeTT}»</div>`; return; }
 
-  // 1. Сначала группируем ВСЕ товары по скидкам (как обычно)
   const groups = {};
   items.forEach(it => {
     const disc = determineDiscount(it.brand, it.model, it.price, it.memory);
@@ -1125,8 +1170,6 @@ function renderContent(){
 
   sortedKeys.forEach(disc => {
     const grp = groups[disc];
-    
-    // 2. Внутри группы фильтруем товары по поисковому запросу
     let filteredItems = grp.items;
     if (searchQuery) {
       filteredItems = grp.items.filter(it => {
@@ -1135,11 +1178,9 @@ function renderContent(){
       });
     }
 
-    // 3. Если в этой группе после фильтрации ничего не осталось — пропускаем её
     if (filteredItems.length === 0) return;
     totalFound += filteredItems.length;
 
-    // 4. Отрисовываем группу только с подходящими товарами
     filteredItems.sort((a,b) => a.brand.localeCompare(b.brand) || a.model.localeCompare(b.model) || a.memory.localeCompare(b.memory));
     const totalQty = filteredItems.reduce((s, it) => s + it.qty, 0);
     
@@ -1174,7 +1215,6 @@ function renderContent(){
     </section>`;
   });
 
-  // Если поиск ничего не дал вообще ни по одной группе
   if (totalFound === 0 && searchQuery) {
     content.innerHTML = `<div class="empty-state">Ничего не найдено по запросу «${searchQuery}»</div>`;
     return;
@@ -1191,6 +1231,12 @@ function renderPresentation(){
   if (!currentRegionData) { presContent.innerHTML = `<div class="empty-state">Сначала выберите регион</div>`; return; }
   const allModelKeys = new Set();
   Object.values(currentRegionData.stock).forEach(ttItems => { Object.keys(ttItems).forEach(key => allModelKeys.add(key)); });
+  
+  if (allModelKeys.size === 0) {
+    presContent.innerHTML = `<div class="empty-state">В этом регионе нет остатков</div>`;
+    return;
+  }
+  
   let models = Array.from(allModelKeys).map(key => {
     const [nameMem, mem] = key.split('|');
     const [brand, ...modelParts] = nameMem.split(' ');
@@ -1202,7 +1248,6 @@ function renderPresentation(){
     return { key, brand, model, mem, price, discount, spec };
   });
 
-  // Фильтрация по поиску
   if (searchQuery) {
     models = models.filter(m => {
       const fullName = `${m.brand} ${m.model} ${m.mem}`.toLowerCase();
@@ -1257,30 +1302,63 @@ function renderPresentation(){
   });
 }
 
-function openDetail(specKey, sourceEl){
-  let spec = SPECS[specKey];
-  
-  // 1. Пытаемся найти точное совпадение
-  if (!spec) {
-    // 2. Если точного нет, ищем по началу модели (игнорируя память)
-    const modelPart = specKey.split('|')[0]; // Например: "Galaxy A08"
-    const brand = modelPart.split(' ')[0]; // Samsung
-    const modelName = modelPart.split(' ').slice(1).join(' '); // Galaxy A08
-    
-    // Ищем любой ключ, который начинается с бренда и модели
-    for (const k in SPECS) {
-      if (k.startsWith(brand + ' ' + modelName + '|')) {
-        spec = SPECS[k];
-        break;
-      }
-    }
+// === НОВАЯ ФУНКЦИЯ ПОИСКА ХАРАКТЕРИСТИК ===
+function findSpec(specKey) {
+  // 1. Точное совпадение
+  if (SPECS[specKey]) return SPECS[specKey];
+
+  const [nameMem, mem] = specKey.split('|');
+  const parts = nameMem.split(' ');
+  const brand = parts[0];
+  const model = parts.slice(1).join(' ');
+
+  // 2. Без бренда (Samsung Galaxy A08 → Galaxy A08)
+  if (SPECS[`${model}|${mem}`]) return SPECS[`${model}|${mem}`];
+
+  // 3. С брендом (Galaxy A08 → Samsung Galaxy A08)
+  if (SPECS[`${brand} ${model}|${mem}`]) return SPECS[`${brand} ${model}|${mem}`];
+
+  // 4. По модели без учёта памяти (любая память)
+  for (const k in SPECS) {
+    const kModel = k.split('|')[0];
+    if (kModel === model || kModel === nameMem) return SPECS[k];
   }
 
-  // 3. Если вообще ничего не нашли — показываем заглушку
+  // 5. Нечёткий поиск: ключ содержит модель (регистронезависимо)
+  const modelLower = model.toLowerCase();
+  const nameMemLower = nameMem.toLowerCase();
+  for (const k in SPECS) {
+    const kModel = k.split('|')[0].toLowerCase();
+    if (kModel === modelLower || kModel === nameMemLower) return SPECS[k];
+    if (kModel.includes(modelLower) || modelLower.includes(kModel)) return SPECS[k];
+  }
+
+  // 6. Не нашли
+  return null;
+}
+
+function openDetail(specKey, sourceEl){
+  document.getElementById('detailPanel').dataset.specKey = specKey;
+  
+  let spec = findSpec(specKey);
+  
+  // Заглушка, если характеристик нет
   if (!spec) {
     const [nameMem, mem] = specKey.split('|');
     const [brand] = nameMem.split(' ');
-    spec = { brand, screen:'—', ram: mem.split('/')[0]+' GB', rom: mem.split('/')[1]+' GB', battery:'—', os:'—', mainCam:'—', frontCam:'—', port:'—', highlight:'Характеристики уточняются' };
+    const memParts = (mem || '').split('/');
+    spec = { 
+      brand, 
+      screen:'—', 
+      ram: (memParts[0] || '—') + ' GB', 
+      rom: (memParts[1] || '—') + ' GB', 
+      battery:'—', 
+      os:'—', 
+      mainCam:'—', 
+      frontCam:'—', 
+      port:'—', 
+      highlight:'Характеристики уточняются'
+    };
   }
   
   const [nameMem, mem] = specKey.split('|');
@@ -1383,6 +1461,7 @@ function openDetail(specKey, sourceEl){
 function toggleExtra(id) {
   const item = EXTRA_PRODUCTS.find(e => e.id === id);
   const specKey = document.getElementById('detailPanel').dataset.specKey;
+  if (!specKey) return;
   const [nameMem, mem] = specKey.split('|');
   let price = 0;
   for (const shop in currentRegionData.stock) { if (currentRegionData.stock[shop][specKey]) { price = currentRegionData.stock[shop][specKey].price; break; } }
@@ -1399,12 +1478,6 @@ function toggleExtra(id) {
   openDetail(specKey, null);
 }
 
-const originalOpenDetail = openDetail;
-openDetail = function(specKey, sourceEl) {
-  document.getElementById('detailPanel').dataset.specKey = specKey;
-  originalOpenDetail(specKey, sourceEl);
-}
-
 function closeDetail(){
   document.getElementById('detailPanel').classList.remove('open');
   document.getElementById('detailOverlay').classList.remove('open');
@@ -1417,7 +1490,7 @@ function renderAll(){ renderControls(); renderKPI(); renderContent(); }
   const now = new Date();
   const day = String(now.getDate()).padStart(2, '0');
   const month = String(now.getMonth() + 1).padStart(2, '0');
-  const year = String(now.getFullYear()).slice(-2); // Берем последние 2 цифры года
+  const year = String(now.getFullYear()).slice(-2);
   document.getElementById('currentDateBadge').textContent = `${day}.${month}.${year}`;
 })();
 
