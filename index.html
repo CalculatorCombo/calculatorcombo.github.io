@@ -29,7 +29,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .nav-btn.active{background:var(--t2-pink);color:#fff;box-shadow:0 4px 16px var(--t2-pink-glow)}
 .date-badge{background:rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:800;padding:2px 7px;border-radius:5px;letter-spacing:.3px}
 .nav-btn.active .date-badge{background:rgba(0,0,0,.2)}
+
+/* ПОИСК */
 .header__spacer{flex:1}
+.search-box {
+  display: none;
+  align-items: center;
+  background: var(--t2-card-soft);
+  border: 1px solid var(--t2-border);
+  border-radius: 10px;
+  padding: 0 12px;
+  height: 42px;
+  width: 300px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.search-box:focus-within {
+  border-color: var(--t2-pink);
+  box-shadow: 0 0 0 3px var(--t2-pink-soft);
+}
+.search-box::before {
+  content: '🔍';
+  font-size: 14px;
+  opacity: 0.5;
+  margin-right: 8px;
+}
+.search-box input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+}
+.search-box input::placeholder {
+  color: var(--t2-muted);
+}
+
 .header__back{display:none;padding:8px 16px;border:1px solid var(--t2-border);border-radius:9px;background:transparent;color:var(--t2-muted);cursor:pointer;font-weight:700;font-family:inherit;transition:all .18s}
 .header__back:hover{border-color:var(--t2-pink);color:#fff}
 .view{display:none}
@@ -245,6 +282,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   .pres-hero__title{font-size:26px}
   .discount-section__badge{font-size:36px;padding:12px 30px}
   .pres-card{width:180px}
+  .search-box { width: 200px; }
 }
 @media(max-width:800px){
   .controls-grid{grid-template-columns:1fr;height:auto;position:static;padding:10px 14px;gap:10px}
@@ -261,6 +299,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   .header__nav{padding:3px;margin-left:0;width:100%;justify-content:center}
   .nav-btn{padding:8px 12px;font-size:12px;flex:1;justify-content:center}
   .header__back{display:none !important}
+  .search-box { width: 100%; margin-top: 5px; order: 5; } 
   .content{padding:16px 14px 60px}
   .pres-hero{padding:24px 20px}
   .pres-hero__title{font-size:22px}
@@ -322,7 +361,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
     <button class="nav-btn" data-view="presentation">Презентация</button>
     <button class="nav-btn active" data-view="stock">Остатки <span class="date-badge" id="currentDateBadge"></span></button>
   </nav>
+  
   <div class="header__spacer"></div>
+  
+  <!-- ПОИСК -->
+  <div class="search-box" id="searchBox">
+    <input type="text" id="searchInput" placeholder="Поиск по модели..." autocomplete="off">
+  </div>
+  
   <button class="header__back" id="backBtn" onclick="goToRegions(event)">← Регионы</button>
 </header>
 
@@ -396,6 +442,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 </div>
 
 <script>
+let searchQuery = '';
+
 const SPECS = {
   // Honor
   'X5d Plus|4/128': { brand:'Honor', screen:'6.74" TFT LCD 90Hz', ram:'4 GB', rom:'128 GB', battery:'5260 мАч, 15W', os:'Android 15 + MagicOS 9.0', mainCam:'50 MP', frontCam:'5 MP', port:'USB Type-C', highlight:'Батарея 5260 мАч + защита экрана от царапин' },
@@ -940,6 +988,9 @@ function goToRegions(e) {
   activeRegion = null; activeTT = null; activeView = 'stock';
   document.getElementById('mainNav').style.display = 'none';
   document.getElementById('backBtn').style.display = 'none';
+  document.getElementById('searchBox').style.display = 'none';
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   if (Object.keys(REGIONS_DATA).length > 0) document.getElementById('view-regions').classList.add('active');
   else document.getElementById('view-loading').classList.add('active');
@@ -979,6 +1030,7 @@ function renderRegions() {
       currentRegionData = REGIONS_DATA[activeRegion];
       document.getElementById('mainNav').style.display = 'flex';
       document.getElementById('backBtn').style.display = 'block';
+      document.getElementById('searchBox').style.display = 'flex';
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById('view-stock').classList.add('active');
       document.getElementById('controlsGrid').style.display = 'grid';
@@ -1041,11 +1093,24 @@ function renderKPI(){
   document.getElementById('kpiComboOther').textContent = comboOther;
 }
 
+// Обработчик поиска
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  if (activeView === 'stock') {
+    renderContent();
+  } else if (activeView === 'presentation') {
+    renderPresentation();
+  }
+});
+
 function renderContent(){
   const content = document.getElementById('content');
   if (!currentRegionData) { content.innerHTML = `<div class="empty-state">Сначала выберите регион</div>`; return; }
-  const items = currentRegionData.stock[activeTT] ? Object.values(currentRegionData.stock[activeTT]) : [];
+  
+  let items = currentRegionData.stock[activeTT] ? Object.values(currentRegionData.stock[activeTT]) : [];
   if (items.length === 0){ content.innerHTML = `<div class="empty-state">Нет остатков по точке «${activeTT}»</div>`; return; }
+
+  // 1. Сначала группируем ВСЕ товары по скидкам (как обычно)
   const groups = {};
   items.forEach(it => {
     const disc = determineDiscount(it.brand, it.model, it.price, it.memory);
@@ -1053,13 +1118,32 @@ function renderContent(){
     if (!groups[disc]) groups[disc] = { title: `Комбо ${badge}`, badge: badge, items: [] };
     groups[disc].items.push(it);
   });
+
   const sortedKeys = Object.keys(groups).map(Number).sort((a, b) => b - a);
   let html = '';
+  let totalFound = 0;
+
   sortedKeys.forEach(disc => {
     const grp = groups[disc];
-    grp.items.sort((a,b) => a.brand.localeCompare(b.brand) || a.model.localeCompare(b.model) || a.memory.localeCompare(b.memory));
-    const totalQty = grp.items.reduce((s, it) => s + it.qty, 0);
-    const rows = grp.items.map(it => {
+    
+    // 2. Внутри группы фильтруем товары по поисковому запросу
+    let filteredItems = grp.items;
+    if (searchQuery) {
+      filteredItems = grp.items.filter(it => {
+        const fullName = `${it.brand} ${it.model} ${it.memory}`.toLowerCase();
+        return fullName.includes(searchQuery);
+      });
+    }
+
+    // 3. Если в этой группе после фильтрации ничего не осталось — пропускаем её
+    if (filteredItems.length === 0) return;
+    totalFound += filteredItems.length;
+
+    // 4. Отрисовываем группу только с подходящими товарами
+    filteredItems.sort((a,b) => a.brand.localeCompare(b.brand) || a.model.localeCompare(b.model) || a.memory.localeCompare(b.memory));
+    const totalQty = filteredItems.reduce((s, it) => s + it.qty, 0);
+    
+    const rows = filteredItems.map(it => {
       const specKey = `${it.brand} ${it.model}|${it.memory}`;
       const colorEntries = Object.entries(it.colors).sort((a,b) => b[1] - a[1]);
       const colorDots = colorEntries.map(([color, qty]) => `<span class="color-dot color-dot--${color}" title="${color}: ${qty}"></span>`).join('');
@@ -1078,8 +1162,9 @@ function renderContent(){
         <td style="text-align:center"><button class="stock-row__btn">Подробнее</button></td>
       </tr>`;
     }).join('');
+
     html += `<section class="combo-section">
-      <div class="combo-section__header"><span class="combo-section__title">${grp.title}</span><span class="combo-section__badge">${grp.badge}</span><span class="combo-section__count">${totalQty} ед. · ${grp.items.length} моделей</span></div>
+      <div class="combo-section__header"><span class="combo-section__title">${grp.title}</span><span class="combo-section__badge">${grp.badge}</span><span class="combo-section__count">${totalQty} ед. · ${filteredItems.length} моделей</span></div>
       <div class="table-wrap">
         <table class="stock-table">
           <thead><tr><th>Модель</th><th style="text-align:center">Цвета</th><th style="text-align:center">Кол-во</th><th style="text-align:center">Базовая цена</th><th style="text-align:center">Разница с голым</th><th style="text-align:center"></th></tr></thead>
@@ -1088,6 +1173,13 @@ function renderContent(){
       </div>
     </section>`;
   });
+
+  // Если поиск ничего не дал вообще ни по одной группе
+  if (totalFound === 0 && searchQuery) {
+    content.innerHTML = `<div class="empty-state">Ничего не найдено по запросу «${searchQuery}»</div>`;
+    return;
+  }
+
   content.innerHTML = html;
   content.querySelectorAll('.stock-row').forEach(row => {
     row.addEventListener('click', () => openDetail(row.dataset.specKey, row));
@@ -1099,7 +1191,7 @@ function renderPresentation(){
   if (!currentRegionData) { presContent.innerHTML = `<div class="empty-state">Сначала выберите регион</div>`; return; }
   const allModelKeys = new Set();
   Object.values(currentRegionData.stock).forEach(ttItems => { Object.keys(ttItems).forEach(key => allModelKeys.add(key)); });
-  const models = Array.from(allModelKeys).map(key => {
+  let models = Array.from(allModelKeys).map(key => {
     const [nameMem, mem] = key.split('|');
     const [brand, ...modelParts] = nameMem.split(' ');
     const model = modelParts.join(' ');
@@ -1109,6 +1201,20 @@ function renderPresentation(){
     const spec = SPECS[key] || { brand, highlight:'Характеристики уточняются' };
     return { key, brand, model, mem, price, discount, spec };
   });
+
+  // Фильтрация по поиску
+  if (searchQuery) {
+    models = models.filter(m => {
+      const fullName = `${m.brand} ${m.model} ${m.mem}`.toLowerCase();
+      return fullName.includes(searchQuery);
+    });
+  }
+
+  if (models.length === 0) {
+    presContent.innerHTML = `<div class="empty-state">Ничего не найдено по запросу «${searchQuery}»</div>`;
+    return;
+  }
+
   const groups = {};
   models.forEach(m => { const badge = Math.round(m.discount * 100); if (!groups[badge]) groups[badge] = []; groups[badge].push(m); });
   const sortedDiscounts = Object.keys(groups).map(Number).sort((a, b) => b - a);
